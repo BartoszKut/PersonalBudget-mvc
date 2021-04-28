@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block title %}Add income{% endblock %}
+
+{% block body %}
+
+{% if incomes.errors is not empty %}
+    <p>Errors:</p>
+        <ul>
+            {% for error in incomes.errors %}
+                <li>{{ error }}</li>
+            {% endfor %}
+        </ul>
+{% endif %}
+
+<main>
+    <div class="container-fluid">
+
+        <div class="mainbg">
+        
+            <div class="row head"> 
+                <div class="col">           
+
+                    <div class="d-inline-block">
+                        <a href="/PersonalBudget-mvc/public/items/index" class="btn mmbtn" role="button">Menu główne</a>
+                    </div>
+
+                    <a href="/PersonalBudget-mvc/public/logout" class="button" style="float: right; margin-top: 20px; margin-right: 20px">Wyloguj się
+                    </a>
+                </div>   
+            </div> 
+
+            <div class="col title">
+                <h1>Nowy przychód </h1>
+            </div>
+
+            <form action="/PersonalBudget-mvc/public/incomes/create" method="post">
+
+                <div class="form-group row">
+                    <label for="value" class="col-5 col-form-label"><h5>Kwota</h5></label>
+                    <div class="col-7" >
+                        <input type="number" name="amount" step="0.01" min="0" required></label>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="date" class="col-5 col-form-label"><h5>Data</h5></label>
+                    <div class="col-7" >
+                        <input type="date" name="date" id="theDate" required></label>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="incomecat" class="col-5 col-form-label"><h5>Kategoria</h5></label>
+                    <div class="col-7" >
+                        <select id="incomecat" name="incomecat">
+                            <option>Wypłata</option>
+                            <option>Najem</option>
+                            <option>Allegro</option>
+                            <option>Inne</option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="form-group row">
+                    <label for="comment" class="col-5 col-form-label"><h5>Komentarz (opcjonalnie)</h5></label>
+                    <div class="col-7" >
+                        <textarea name="comment" id="comment" rows="1"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group row addExpense">
+                    <div class="col d-flex justify-content-center">
+                        <button type="submit" class="btn sbmbtn">Dodaj</button>
+                    </div>
+                </div>
+        
+            </form>	
+
+        </div>
+    </div>
+
+</main>
+
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+
+{% block title %}Login{% endblock %}
+
+{% block body %}
+
+
+<main>
+    <div class="container-fluid">
+        
+        <div class="row">                   
+
+            <div class="col mainbg">
+
+                <div class="d-inline-block">
+                    <a href="/PersonalBudget-mvc/public/home/index"><img class="logo" src="img/logo.png" width="90" height="90" alt=""/></a>
+                </div>
+
+                <div class="col title">
+                    <h1>Zaloguj się do swojego konta<br/>PersonalBudget</h1>
+                </div>
+
+                <form action="/PersonalBudget-mvc/public/login/create" method="post">
+                    
+                    <div class="form-group d-flex justify-content-center">
+                        <input type="email" class="form-control" name="email" placeholder="email" required value="{{ email }}" >
+                    </div>
+
+                    <div class="form-group d-flex justify-content-center">
+                        <input type="password" class="form-control" name="password" placeholder="hasło" required >
+                    </div>
+                    
+                    <div class="d-flex justify-content-center">
+                        <button type="submit" class="btn login-btn text-center"> Zaloguj się</button>
+                    </div>
+
+                </form>
+
+                <h5 class="d-flex justify-content-center">Nie posiadasz konta? <a href="/PersonalBudget-mvc/public/signup/new" class="createAccount"> Zarejestruj się</a></h5>
+
+            </div>
+        </div>
+    </div>
+
+</main>    
+
+{% endblock %}

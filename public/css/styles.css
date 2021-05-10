@@ -411,7 +411,8 @@ input[type=email]:focus{
 h5{
 	margin-top: 15px;
 	margin-bottom: 15px;
-    font-size: 18px;
+    margin-left: 20%;
+    font-size: 26px;
 }
 
 

@@ -7,7 +7,7 @@ use \App\Models\Expense;
 use \App\Controllers\Items;
 
 /* Add expense controller */
-class Expenses extends \Core\Controller
+class Expenses extends Authenticated
 {
 
     /* Show the add expense page */

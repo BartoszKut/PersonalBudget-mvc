@@ -7,7 +7,7 @@ use \App\Models\Income;
 use \App\Controllers\Items;
 
 /* Add incomes controller */
-class Incomes extends \Core\Controller
+class Incomes extends Authenticated
 {
 
     /* Show the add income page */

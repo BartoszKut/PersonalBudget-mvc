@@ -37,6 +37,8 @@ $router->add('login', ['controller' => 'Login', 'action' => 'new']);
 $router->add('logout', ['controller' => 'Login', 'action' => 'destroy']);
 $router->add('addincome', ['controller' => 'Incomes', 'action' => 'new']);
 $router->add('addexpense', ['controller' => 'Expenses', 'action' => 'new']);
+$router->add('currentMonthBalance', ['controller' => 'Balances', 'action' => 'current']);
+
 $router->add('{controller}/{action}');
     
 $router->dispatch($_SERVER['QUERY_STRING']);

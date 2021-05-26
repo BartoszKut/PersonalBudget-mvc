@@ -23,7 +23,7 @@ class Incomes extends Authenticated
         $income = new Income($_POST);
  
         if ($income -> save()){
-            $this -> redirect('/PersonalBudget-mvc/public/items/index');
+            $this -> redirect('/items/index');
         } else {
             View::renderTemplate('Income/new.html', [
                 'income' => $income

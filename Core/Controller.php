@@ -95,7 +95,7 @@ abstract class Controller
 
             Auth::rememberRequestedPage();
 
-            $this -> redirect('/PersonalBudget-mvc/public/login');
+            $this -> redirect('/login');
         } 
     }
 

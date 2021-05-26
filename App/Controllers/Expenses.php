@@ -23,7 +23,7 @@ class Expenses extends Authenticated
         $expense = new Expense($_POST);
  
         if ($expense -> save()){
-            $this -> redirect('/PersonalBudget-mvc/public/items/index');
+            $this -> redirect('/items/index');
         } else {
             View::renderTemplate('Expense/new.html', [
                 'expense' => $expense

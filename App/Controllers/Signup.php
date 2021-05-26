@@ -22,7 +22,7 @@ class Signup extends \Core\Controller
         $user = new User($_POST);
  
         if ($user -> save()){
-            $this -> redirect('/PersonalBudget-mvc/public/signup/success');
+            $this -> redirect('/signup/success');
         } else {
             View::renderTemplate('Signup/new.html', [
                 'user' => $user

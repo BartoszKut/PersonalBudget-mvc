@@ -19,7 +19,7 @@ class Login extends \Core\Controller
         //if (isset($_SESSION['user_id'])) 
         if (Auth::getUser()) {
 
-            $this -> redirect('/PersonalBudget-mvc/public/items/index');
+            $this -> redirect('/items/index');
 
         } else {
 
@@ -38,7 +38,7 @@ class Login extends \Core\Controller
 
             Auth::login($user);
 
-            $_SESSION['return_to'] = '/PersonalBudget-mvc/public/login/success';
+            $_SESSION['return_to'] = '/login/success';
             //$this -> redirect('/PersonalBudget-mvc/public/login/success');
             $this -> redirect(Auth::getReturnToPage());
 
@@ -64,7 +64,7 @@ class Login extends \Core\Controller
     {
         Auth::logout();
 
-        $this -> redirect('/PersonalBudget-mvc/public/login/show-logout-message');
+        $this -> redirect('/login/show-logout-message');
     }
 
 
@@ -74,7 +74,7 @@ class Login extends \Core\Controller
     {
         Flash::addMessage('Wylogowano poprawnie!');
 
-        $this -> redirect('/PersonalBudget-mvc/public');
+        $this -> redirect('/');
     }
 
 }

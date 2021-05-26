@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block title %}Balance{% endblock %}
+
+{% block body %}
+
+<main>
+    <div class="container-fluid">
+
+        <div class="mainbg">
+        
+            <div class="row head"> 
+                <div class="col">           
+
+                    <div class="d-inline-block">
+                        <a href="/items/index" class="btn mmbtn" role="button">Menu główne</a>
+                    </div>
+
+                    <a href="index.php" class="button" style="float: right; margin-top: 20px; margin-right: 20px">Wyloguj się</a>
+                </div>   
+            </div> 
+
+            <div class="row">
+                <div class="col-12 col-md-4 col-xl-3 align-middle">
+                    <div class="row"><a class="btn optionbtn" href="/Balances/current" role="button">Bilans aktualnego miesiąca</a></div>
+                    <div class="row"><a class="btn optionbtn" href="previousMonthBalance" role="button">Bilans poprzedniego miesiąca</a></div>
+                    <div class="row"><a class="btn optionbtn" href="selectDates" role="button">Bilans - wprowadź daty</a></div>
+                </div>
+                <div class="col-12 col-md-8 col-xl-9">
+                    <div class="row">
+                        <div class="balanceTitle">
+                            <h1>Bilans - {{ firstDate }} - {{ secondDate }}</h1>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-lg-6">
+                        <div class="columnTitle"><h3>Twoje przychody: {{ incomes_sum }} zł</h3></div>
+
+                        {% for income in incomes %}
+                            <div class="card-header">{{ income.Category }}: {{ income.Amount }} zł</div>                        
+
+                        {% for income in incomes_details %}
+                            <ul class="list-group list-group-flush"><li class="list-group-item"><i class="fas fa-long-arrow-alt-right"></i>{{ income.Amount }} - {{ income.Date }} - {{ income.Comment}} '<i class="fas fa-edit"></i><i class="fas fa-trash-alt ml-1"></i> </li></ul>
+                        {% endfor %}
+                        {% endfor %}
+                        </div>                          
+
+                        
+                        <div class="col-12 col-lg-6">
+                            <div class="columnTitle"><h3>Twoje wydatki: {{ expenses_sum }} zł</h3></div>
+                            {% for expense in expenses %}
+                            <div class="card-header">{{ expense.category }}: {{ expense.amount }} zł</div>                        
+
+                        {% for expense in expenses_details %}
+                            <ul class="list-group list-group-flush"><li class="list-group-item"><i class="fas fa-long-arrow-alt-right"></i>{{ expense.amount }} - {{ expense.date }} - {{ expense.comment}} <i class="fas fa-edit"></i><i class="fas fa-trash-alt ml-1"></i> </li></ul>
+                        {% endfor %}
+                        {% endfor %}
+                        </div>
+                    </div>
+                    <div class="row information">
+                        <h3>{{ information }}</h3>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+            
+    </div>
+    
+</main>
+
+{% endblock %}

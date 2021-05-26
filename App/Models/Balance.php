@@ -104,10 +104,11 @@ class Balance extends \Core\Model
     {
         $date = new DateTime();       
 
-        $month = getMonthInInt($date -> format('Y-m-d'));
-        --$month;
+        $month = static::getMonthInInt($date -> format('Y-m-d'));
+        
+        $month -= 1;
 
-        $nameOfPreviousMonth = getPolishNamesOfMonths($month);
+        $nameOfPreviousMonth = static::getPolishNamesOfMonths($month);
 
         return $nameOfPreviousMonth;        
     }

@@ -5,13 +5,14 @@ namespace App\Controllers;
 use \Core\View;
 use \App\Models\Balance;
 use \App\Controllers\Items;
+use \App\Flash;
 
 use \Datetime;
 
 
 class Balances extends Authenticated
 {
-    
+
     public function currentMonthBalanceTemplate($firstDate, $secondDate)
     {
         $arguments = [];
@@ -32,12 +33,12 @@ class Balances extends Authenticated
     public function previousMonthBalanceTemplate($firstDate, $secondDate)
     {
         $arguments = [];
-        $$arguments['previousMonth'] = Balance::getPolishNameOfPreviousMonth();
+        $arguments['previousMonth'] = Balance::getPolishNameOfPreviousMonth();
         $arguments['incomes_sum'] = Balance::getSumOfIncomes($firstDate, $secondDate);
         $arguments['expenses_sum'] = Balance::getSumOfExpenses($firstDate, $secondDate);
         $arguments['incomes'] = Balance::getIncomes($firstDate, $secondDate);
         $arguments['expenses'] = Balance::getExpenses($firstDate, $secondDate);
-        $arguments['information'] = saveOrNo($amount);       
+        //$arguments['information'] = Balance::saveOrNo($amount);       
         
         View::renderTemplate('Balance/PreviousMonth.html', $arguments);
     }
@@ -52,9 +53,8 @@ class Balances extends Authenticated
         $arguments['incomes_sum'] = Balance::getSumOfIncomes($firstDate, $secondDate);
         $arguments['expenses_sum'] = Balance::getSumOfExpenses($firstDate, $secondDate);
         $arguments['incomes'] = Balance::getIncomes($firstDate, $secondDate);
-        $arguments['incomes_details'] = Balance::getDetailsOfIncome();
         $arguments['expenses'] = Balance::getExpenses($firstDate, $secondDate);
-        $arguments['information'] = saveOrNo($amount);     
+        //$arguments['information'] = saveOrNo($amount);     
         
         View::renderTemplate('Balance/SelectedDates.html', $arguments);
     }
@@ -83,20 +83,30 @@ class Balances extends Authenticated
 
     public function selectedDatesAction()
     {
-        if($_POST['firstDate'] == '' || $_POST['secondDate'] == '') {
+        $firstDate = strtotime($_POST['firstDate']);
+        $firstdate = date("Y-m-d", $firstDate);
+        $firstDay = new DateTime($firstdate);
+
+        $lastDate = strtotime($_POST['secondDate']);
+        $lastdate = date("Y-m-d", $lastDate);
+        $lastDay = new DateTime($lastdate);
+
+        if($firstDay == "" || $lastDay == "") {
             Flash::addMessage("Należy wybrać obie daty!");
-            $this -> currentAction();
+            $this -> selectDatesAction();
         }
-        else if($_POST['firstDate'] > $_POST['secondDate'] == '') {
+        else if($firstDay > $lastDay) {
             Flash::addMessage("Pierwsza data nie może być późniejsza niż druga!");
-            $this -> currentAction();
+            $this -> selectDatesAction();
         }
 
-        $firstDay = $_POST['firstDate'];
-        $lastDay = $_POST['secondDate'];
-
-        $this -> previousMonthBalanceTemplate($firstDay, $lastDay);
+        $this -> selectedDatesBalanceTemplate($firstDay, $lastDay);
     }
 
 
+
+    public function selectDatesAction()
+    {
+       View::renderTemplate('Balance/SelectDates.html'); 
+    }
 }

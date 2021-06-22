@@ -37,9 +37,13 @@ $router->add('login', ['controller' => 'Login', 'action' => 'new']);
 $router->add('logout', ['controller' => 'Login', 'action' => 'destroy']);
 $router->add('addincome', ['controller' => 'Incomes', 'action' => 'new']);
 $router->add('addexpense', ['controller' => 'Expenses', 'action' => 'new']);
+$router->add('settings', ['controller' => 'AppSettings', 'action' => 'index']);
+$router->add('incomeSettings', ['controller' => 'AppSettings', 'action' => 'editIncomes']);
+$router->add('expenseSettings', ['controller' => 'AppSettings', 'action' => 'editExpenses']);
 $router->add('currentMonthBalance', ['controller' => 'Balances', 'action' => 'current']);
 $router->add('previousMonthBalance', ['controller' => 'Balances', 'action' => 'previous']);
 $router->add('selectdates', ['controller' => 'Balances', 'action' => 'selectdates']);
+
 
 $router->add('{controller}/{action}');
     

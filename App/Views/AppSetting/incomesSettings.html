@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}Incomes settings{% endblock %}
+
+{% block body %}
+
+<main>
+    <div class="container-fluid">
+
+        <div class="mainbg">
+        
+            <div class="row head"> 
+                <div class="col">           
+
+                    <div class="d-inline-block">
+                        <a href="/settings" class="btn mmbtn" role="button">Menu ustawień</a>
+                    </div>
+
+                    <a href="index.php" class="button" style="float: right; margin-top: 20px; margin-right: 20px">Wyloguj się
+                    </a>
+                </div>   
+            </div> 
+
+            <div class="col title">
+                <h1>Edycja kategorii przychodów</h1>
+            </div>
+
+            <form action="/AppSettings/create???" method="post">
+
+                <div class="form-group row">
+                    <label for="newIncomeCategory" class="col-5 col-form-label"><h5>Wprowadź nową kategorię</h5></label>
+                    <div class="col-7" >
+                        <textarea name="newIncomeCategory" id="newIncomeCategory" rows="1"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="date" class="col-5 col-form-label"><h5>Usuń wybraną kategorię</h5></label>
+                    <div class="col-7" >
+                        <select id="expensecat" name="expensecat">
+                            <option disabled selected value>Wybierz kategorię</option>
+                            <option>Jedzenie</option>
+                            <option>Mieszkanie</option>
+                            <option>Transport</option>
+                            <option>Opieka zdrowotna</option>
+                            <option>Garderoba</option>
+                            <option>Higiena</option>
+                            <option>Dzieci</option>
+                            <option>Rozrywka</option>
+                            <option>Edukacja</option>
+                            <option>Oszczędności</option>
+                            <option>Darowizna</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="paymentmethod" class="col-5 col-form-label"><h5>Ustaw limit kategorii</h5></label>
+                    <div class="col-7" >
+                        <input type="number" name="limitAmount" step="0.01" min="0"></label>
+                    </div>
+                </div>
+
+
+                <div class="form-group row addExpense">
+                    <div class="col d-flex justify-content-center">
+                        <button type="submit" class="btn sbmbtn">Zapisz zmiany</button>
+                    </div>
+                </div>
+        
+            </form>	
+
+        </div>
+    </div>
+
+</main>
+
+{% endblock %}

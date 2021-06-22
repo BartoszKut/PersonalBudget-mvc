@@ -4,9 +4,6 @@
 
 {% block body %}
 
-<p>{{ current_user.name }}</p>
-
-
 <main>
     <div class="container-fluid">
         <div class="mainbg">
@@ -15,36 +12,32 @@
                 <div class="col">           
 
                     <div class="d-inline-block">
-                        <a href="/home/index"><img class="mainMenuLogo" src="img/logo.png" width="90" height="90" alt=""/></a>
+                        <a href="/items/index" class="btn mmbtn" role="button">Menu główne</a>
                     </div>
 
                     <a href="/logout" class="logoutButton" style="float: right; margin-top: 20px; margin-right: 20px">Wyloguj się
                     </a>
                 </div>   
             </div> 
-            
+
             <div class="row PB">
 
-                <h1 class="col-12 text-center title">PersonalBudget - zarządzaj swoimi  pieniędzmi!</h1>
+                <h1 class="col-12 text-center title">Ustawienia</h1>
                         
             </div>
             
             <div class="row">
                 
                 <div class="col-12 text-center">
-                    <a class="btn optionbtn" href="/addincome" role="button">Dodaj przychód</a>             
+                    <a class="btn optionbtn" href="/incomeSettings" role="button">Przychody</a>             
                 </div>
 
                 <div class="col-12 text-center">
-                    <a class="btn optionbtn" href="/addexpense" role="button">Dodaj wydatek</a>             
+                    <a class="btn optionbtn" href="/expenseSettings" role="button">Wydatki</a>             
                 </div>
 
                 <div class="col-12 text-center">
-                    <a class="btn optionbtn" href="/currentMonthBalance" role="button">Bilnas</a>             
-                </div>
-
-                <div class="col-12 text-center">
-                    <a class="btn optionbtn" href="/settings" role="button">Ustawienia</a>             
+                    <a class="btn optionbtn" href="settings.php" role="button">Użytkownik</a>             
                 </div>
 
             </div>

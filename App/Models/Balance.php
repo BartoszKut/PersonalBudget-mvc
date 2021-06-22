@@ -142,8 +142,8 @@ class Balance extends \Core\Model
         $stmt_incomes = $db_get_incomes -> prepare($sql_get_incomes);
 
         $stmt_incomes -> bindValue(':id_user', $logged_user_id, PDO::PARAM_INT);
-        $stmt_incomes->bindValue(':first_date', $firstDate -> format('Y-m-d'), PDO::PARAM_STR);
-        $stmt_incomes -> bindValue(':second_date', $secondDate -> format('Y-m-d'), PDO::PARAM_STR);
+        $stmt_incomes->bindValue(':first_date', $firstDate, PDO::PARAM_STR);
+        $stmt_incomes -> bindValue(':second_date', $secondDate, PDO::PARAM_STR);
         $stmt_incomes -> execute();
 
         $result_sum_of_incomes = $stmt_incomes -> fetchAll();
@@ -163,8 +163,8 @@ class Balance extends \Core\Model
         $stmt_incomes = $db_get_incomes -> prepare($sql_get_incomes);
 
         $stmt_incomes->bindValue(':id_user', $logged_user_id, PDO::PARAM_INT);
-        $stmt_incomes->bindValue(':first_date', $firstDate -> format('Y-m-d'), PDO::PARAM_STR);
-        $stmt_incomes->bindValue(':second_date', $secondDate -> format('Y-m-d'), PDO::PARAM_STR);
+        $stmt_incomes->bindValue(':first_date', $firstDate, PDO::PARAM_STR);
+        $stmt_incomes->bindValue(':second_date', $secondDate, PDO::PARAM_STR);
         $stmt_incomes->execute();
 
         $result_sum_of_incomes = $stmt_incomes -> fetchAll();
@@ -177,8 +177,8 @@ class Balance extends \Core\Model
             $stmt_incomes_details = $db_incomes_details -> prepare($sql_incomes_details);
 
             $stmt_incomes_details -> bindValue(':id_user', $logged_user_id, PDO::PARAM_INT);
-            $stmt_incomes_details -> bindValue(':first_date', $firstDate -> format('Y-m-d'), PDO::PARAM_STR);
-            $stmt_incomes_details -> bindValue(':second_date', $secondDate -> format('Y-m-d'), PDO::PARAM_STR);  
+            $stmt_incomes_details -> bindValue(':first_date', $firstDate, PDO::PARAM_STR);
+            $stmt_incomes_details -> bindValue(':second_date', $secondDate, PDO::PARAM_STR);  
             $stmt_incomes_details -> bindValue(':category_name', $month_incomes[0], PDO::PARAM_INT);   
             $stmt_incomes_details -> execute();
 
@@ -201,8 +201,8 @@ class Balance extends \Core\Model
         $stmt_incomes_sum = $db_incomes_sum -> prepare($sql_incomes_sum);
 
         $stmt_incomes_sum -> bindValue(':logged_user_id', $logged_user_id, PDO::PARAM_INT);
-        $stmt_incomes_sum -> bindValue(':first_date', $firstDate -> format('Y-m-d'), PDO::PARAM_STR);
-        $stmt_incomes_sum -> bindValue(':second_date', $secondDate -> format('Y-m-d'), PDO::PARAM_STR);  
+        $stmt_incomes_sum -> bindValue(':first_date', $firstDate, PDO::PARAM_STR);
+        $stmt_incomes_sum -> bindValue(':second_date', $secondDate, PDO::PARAM_STR);  
         $stmt_incomes_sum -> execute();
         $incomes_sum = $stmt_incomes_sum -> fetchColumn();
 
@@ -222,8 +222,8 @@ class Balance extends \Core\Model
         $stmt_expenses = $db_get_expenses -> prepare($sql_get_expenses);
 
         $stmt_expenses->bindValue(':id_user', $logged_user_id, PDO::PARAM_INT);
-        $stmt_expenses->bindValue(':first_date', $firstDate -> format('Y-m-d'), PDO::PARAM_STR);
-        $stmt_expenses->bindValue(':second_date', $secondDate -> format('Y-m-d'), PDO::PARAM_STR);
+        $stmt_expenses->bindValue(':first_date', $firstDate, PDO::PARAM_STR);
+        $stmt_expenses->bindValue(':second_date', $secondDate, PDO::PARAM_STR);
         $stmt_expenses->execute();
 
         $result_sum_of_expenses = $stmt_expenses -> fetchAll();
@@ -243,8 +243,8 @@ class Balance extends \Core\Model
         $stmt_expenses = $db_get_expenses -> prepare($sql_get_expenses);
 
         $stmt_expenses->bindValue(':id_user', $logged_user_id, PDO::PARAM_INT);
-        $stmt_expenses->bindValue(':first_date', $firstDate -> format('Y-m-d'), PDO::PARAM_STR);
-        $stmt_expenses->bindValue(':second_date', $secondDate -> format('Y-m-d'), PDO::PARAM_STR);
+        $stmt_expenses->bindValue(':first_date', $firstDate, PDO::PARAM_STR);
+        $stmt_expenses->bindValue(':second_date', $secondDate, PDO::PARAM_STR);
         $stmt_expenses->execute();
 
         $result_sum_of_expenses = $stmt_expenses -> fetchAll();
@@ -256,8 +256,8 @@ class Balance extends \Core\Model
                 $stmt_expenses_details = $db_expenses_details -> prepare($sql_expenses_details);
 
                 $stmt_expenses_details -> bindValue(':id_user', $logged_user_id, PDO::PARAM_INT);
-                $stmt_expenses_details -> bindValue(':first_date', $firstDate -> format('Y-m-d'), PDO::PARAM_STR);
-                $stmt_expenses_details -> bindValue(':second_date', $secondDate -> format('Y-m-d'), PDO::PARAM_STR);  
+                $stmt_expenses_details -> bindValue(':first_date', $firstDate, PDO::PARAM_STR);
+                $stmt_expenses_details -> bindValue(':second_date', $secondDate, PDO::PARAM_STR);  
                 $stmt_expenses_details -> bindValue(':category_name', $month_expenses[0], PDO::PARAM_INT);   
                 $stmt_expenses_details -> execute();
 
@@ -280,8 +280,8 @@ class Balance extends \Core\Model
         $stmt_expenses_sum = $db_expenses_sum -> prepare($sql_expenses_sum);
 
         $stmt_expenses_sum -> bindValue(':logged_user_id', $logged_user_id, PDO::PARAM_INT);
-        $stmt_expenses_sum -> bindValue(':first_date', $firstDate -> format('Y-m-d'), PDO::PARAM_STR);
-        $stmt_expenses_sum -> bindValue(':second_date', $secondDate -> format('Y-m-d'), PDO::PARAM_STR);  
+        $stmt_expenses_sum -> bindValue(':first_date', $firstDate, PDO::PARAM_STR);
+        $stmt_expenses_sum -> bindValue(':second_date', $secondDate, PDO::PARAM_STR);  
         $stmt_expenses_sum -> execute();
         $expenses_sum = $stmt_expenses_sum -> fetchColumn();
 
@@ -307,9 +307,11 @@ class Balance extends \Core\Model
     {
         // first day of current month 
         $firstDate = new DateTime('first day of this month');        
+        $firstDate = $firstDate -> format('Y-m-d');
 
         // last day of current month 
         $secondDate = new DateTime('last day of this month');
+        $secondDate = $secondDate -> format('Y-m-d');
 
         $balance = static::balanceAmount($firstDate, $secondDate);  
         
@@ -321,12 +323,14 @@ class Balance extends \Core\Model
     public function getBalanceFromPreviousMonth()
     {
         // first day of previous month 
-        $firstDate = new DateTime('first day of previous month');        
+        $firstDate = new DateTime('first day of previous month');  
+        $firstDate = $firstDate -> format('Y-m-d');  
 
         // last day of previous month 
         $secondDate = new DateTime('last day of previous month');
+        $secondDate = $secondDate -> format('Y-m-d');
 
-        $balance = balanceAmount($firstDate -> format('Y-m-d'), $secondDate -> format('Y-m-d'));        
+        $balance = balanceAmount($firstDate, $secondDate);        
     }
 
 
@@ -349,13 +353,5 @@ class Balance extends \Core\Model
 
         return $_SESSION['information'];
     }
-
-
-
-
-
-
-
-
 
 }

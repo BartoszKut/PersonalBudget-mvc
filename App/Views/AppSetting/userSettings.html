@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}User settings{% endblock %}
+
+{% block body %}
+
+<main>
+    <div class="container-fluid">
+
+        <div class="mainbg">
+        
+            <div class="row head spacer"> 
+                <div class="col">           
+
+                    <div class="d-inline-block">
+                        <a href="/settings" class="btn mmbtn" role="button">Menu ustawień</a>
+                    </div>
+
+                    <a href="index.php" class="button" style="float: right; margin-top: 20px; margin-right: 20px">Wyloguj się
+                    </a>
+                </div>   
+            </div> 
+
+            <div class="col title">
+                <h1>Edycja danych użytkownika</h1>
+            </div>
+
+            <form action="/UserSetting/updateUser" method="post">
+
+                <div class="form-group row">
+                    <label for="name" class="col-5 col-form-label"><h5>Wprowadź nowe imię</h5></label>
+                    <div class="col-7" >
+                        <textarea name="name" id="name" rows="1">{{ current_user.name }}</textarea>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="surname" class="col-5 col-form-label"><h5>Wprowadź nowe nazwisko</h5></label>
+                    <div class="col-7" >
+                        <textarea name="surname" id="surname" rows="1">{{ current_user.surname }}</textarea>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="email" class="col-5 col-form-label"><h5>Wprowadź nowy email</h5></label>
+                    <div class="col-7" >
+                        <textarea name="email" id="email" rows="1">{{ current_user.email }}</textarea>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="password" class="col-5 col-form-label"><h5>Wprowadź dotychczasowe hasło</h5></label>
+                    <div class="col-7" >
+                        <textarea name="password" id="password" rows="1"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="password2" class="col-5 col-form-label"><h5>Wprowadź nowe hasło</h5></label>
+                    <div class="col-7" >
+                        <textarea name="password2" id="password2" rows="1"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group row addExpense">
+                    <div class="col d-flex justify-content-center">
+                        <button type="submit" class="btn sbmbtn">Zapisz zmiany</button>
+                    </div>
+                </div>
+        
+            </form>	
+
+        </div>
+    </div>
+
+</main>
+
+{% endblock %}

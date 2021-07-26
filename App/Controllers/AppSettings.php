@@ -21,9 +21,17 @@ class AppSettings extends Authenticated /* Require the user to be logged in befo
     }
 
 
+
     public function editExpenses()
     {       
         View::renderTemplate('AppSetting/expensesSettings.html');               
     }
+
+
     
+    public function editUser()
+    {       
+        View::renderTemplate('AppSetting/userSettings.html');               
+    }
+
 }

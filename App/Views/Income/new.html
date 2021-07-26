@@ -18,7 +18,7 @@
 
         <div class="mainbg">
         
-            <div class="row head"> 
+            <div class="row head spacer"> 
                 <div class="col">           
 
                     <div class="d-inline-block">
@@ -46,7 +46,7 @@
                 <div class="form-group row">
                     <label for="date" class="col-5 col-form-label"><h5>Data</h5></label>
                     <div class="col-7" >
-                        <input type="date" name="date" id="theDate" required></label>
+                        <input type="date" name="date" id="theDate" required ></label>
                     </div>
                 </div>
 
@@ -100,24 +100,12 @@
                     <label class="title" for="incomeCategory"><p>Kategoria przychodu:</p></label>
                     <textarea name="incomeCategory" id="incomeCategory" rows="1"></textarea>
                 </div>
-
-                <div>
-                    <input type="checkbox" id="scales" name="scales">
-                    <label for="scales">Ustaw limit dla kategorii</label>
-                </div>
-
-                <div>
-                    <label for="incomeLimit"><p>Podaj wartość limitu</p></label>
-                    <div>
-                        <input type="number" name="incomeLimit" step="0.01" min="0" required>
-                    </div>
-                </div>
             </div>
         </div>
 
         <div class="modal-footer">
-            <button type="button" class="btn btn-primary">Zapisz zmiany</button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal">Anuluj</button>
+            <button type="button" class="btn btn-primary acceptChanges">Zapisz zmiany</button>
+            <button type="button" class="btn btn-secondary cancelChanges" data-dismiss="modal">Anuluj</button>
         </div>
     </div>
 </div>
@@ -128,6 +116,7 @@
 {% block scripts %}
 
 <script>
+
     // Get the modal
     var modal = document.getElementById("myModal");
     

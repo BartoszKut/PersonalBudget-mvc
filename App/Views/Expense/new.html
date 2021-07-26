@@ -18,7 +18,7 @@
 
         <div class="mainbg">
         
-            <div class="row head"> 
+            <div class="row head spacer"> 
                 <div class="col">           
 
                     <div class="d-inline-block">
@@ -57,6 +57,7 @@
                             <option>Gotówka</option>
                             <option>Karta</option>
                         </select>
+                        <button id="edit-button" data-toggle="modal">Edycja</button>
                     </div>
                 </div>
 
@@ -98,5 +99,79 @@
     </div>
 
 </main>
+
+<!-- Modal change category value -->
+<div class="modal" id="myModal">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Edycja wydatku</h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span class="close" aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+           
+                <div>
+                    <label class="title" for="expenseCategory"><p>Kategoria wydatku:</p></label>
+                    <textarea name="expenseCategory" id="expenseCategory" rows="1"></textarea>
+                </div>
+
+                <div>
+                    <input type="checkbox" id="scales" name="scales">
+                    <label for="scales">Ustaw limit dla kategorii</label>
+                </div>
+
+                <div>
+                    <label for="incomeLimit"><p>Podaj wartość limitu</p></label>
+                    <div>
+                        <input type="number" name="incomeLimit" step="0.01" min="0" required>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary acceptChanges">Zapisz zmiany</button>
+            <button type="button" class="btn btn-secondary cancelChanges" data-dismiss="modal">Anuluj</button>
+        </div>
+    </div>
+</div>
+
+{% endblock %}
+
+
+
+{% block scripts %}
+
+<script>
+
+    // Get the modal
+    var modal = document.getElementById("myModal");
+    
+    // Get the button that opens the modal
+    var btn = document.getElementById("edit-button");
+    
+    // Get the <span> element that closes the modal
+    var span = document.getElementsByClassName("close")[0];
+    
+    // When the user clicks on the button, open the modal
+    btn.onclick = function() {
+      modal.style.display = "block";
+    }
+    
+    // When the user clicks on <span> (x), close the modal
+    span.onclick = function() {
+      modal.style.display = "none";
+    }
+    
+    // When the user clicks anywhere outside of the modal, close it
+    window.onclick = function(event) {
+        if (event.target == modal) {
+        modal.style.display = "none";
+      }
+    }
+</script>
 
 {% endblock %}

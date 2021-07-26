@@ -254,7 +254,8 @@ input[type=email]:focus{
 .optionbtn{
 	width: 60%;
 	max-width: 400px;
-    margin-bottom: 50px;
+	margin-top: 25px;
+    margin-bottom: 25px;
 	background-color: #4cb050;
 	font-size: 20px;
 	color: white;
@@ -425,7 +426,7 @@ h5{
     font-size: 28px;
 	background-color: #4cb050;
     color: #f3f3f4;
-	font-size: 28px;
+	font-size: 20px;
 	padding-top: 18px;
     padding-bottom: 15px;
 	border: none;
@@ -470,6 +471,61 @@ h5{
 
 
 
+/* balance */
+
+.spacer{
+	margin-bottom: 50px;
+}
+
+.optionsbtn{
+	margin-left: 30px;
+	width: 80%;
+	max-width: 400px;
+	margin-top: 25px;
+    margin-bottom: 25px;
+	background-color: #4cb050;
+	font-size: 20px;
+	color: white;
+	padding-top: 22px; 
+	padding-bottom: 17px;
+	border: none;
+	border-radius: 35px;
+	cursor: pointer;
+	letter-spacing: 1px;
+	outline: none;
+	-webkit-box-shadow: 5px 5px 13px 1px rgba(0,0,0,0.33);
+	-moz-box-shadow: 5px 5px 13px 1px rgba(0,0,0,0.33);
+	box-shadow: 5px 5px 13px 1px rgba(0,0,0,0.33);
+}
+
+
+.optionsbtn:hover{
+	background-color: #22aa2a;
+    color: #273238;
+	cursor: pointer;
+}
+
+
+.optionsbtn:focus{
+	background-color: #66bb6a;
+}
+
+
+.information{
+	margin-top: 25px;
+	text-align: center;
+}
+
+
+.columnTitle{
+	text-align: center;
+}
+
+
+/* Settings */
+
+
+
 
 
 
@@ -486,7 +542,7 @@ h5{
 	height: 100%; /* Full height */
 	overflow: auto; /* Enable scroll if needed */
 	background-color: rgb(0,0,0); /* Fallback color */
-	background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+	background-color: rgba(0,0,0,0.8); /* Black w/ opacity */
 }
   
 .modal-content {
@@ -503,7 +559,8 @@ h5{
 
 .modal-title {
 	font-weight: bold;
-	text-align: left;
+	margin-left: auto;
+	margin-right: auto;
 }
   
 .close {
@@ -535,6 +592,65 @@ p.incomeCategory{
 .textArea {
 	margin: 5px;
 }
+
+.acceptChanges{
+    max-width: 200px;
+    width: 70%;
+    font-family: 'Karma', serif; 
+	background-color: #4cb050;
+    color: #f3f3f4;
+	font-size: 20px;
+	padding-top: 13px;
+    padding-bottom: 10px;
+	border: none;
+	border-radius: 15px;
+	cursor: pointer;
+	letter-spacing: 1px;
+	outline: none;
+	-webkit-box-shadow: 5px 5px 13px 1px rgba(0,0,0,0.33);
+	-moz-box-shadow: 5px 5px 13px 1px rgba(0,0,0,0.33);
+	box-shadow: 5px 5px 13px 1px rgba(0,0,0,0.33);
+}
+
+.acceptChanges:hover{
+	background-color: #22aa2a;
+    color: #273238;
+	cursor: pointer;
+}
+
+.acceptChanges:focus{
+	background-color: #66bb6a;
+}
+
+.cancelChanges{
+	max-width: 100px;
+    width: 70%;
+    font-family: 'Karma', serif; 
+	background-color: #979797;
+    color: #f3f3f4;
+	font-size: 20px;
+	padding-top: 13px;
+    padding-bottom: 10px;
+	border: none;
+	border-radius: 15px;
+	cursor: pointer;
+	letter-spacing: 1px;
+	outline: none;
+	-webkit-box-shadow: 5px 5px 13px 1px rgba(0,0,0,0.33);
+	-moz-box-shadow: 5px 5px 13px 1px rgba(0,0,0,0.33);
+	box-shadow: 5px 5px 13px 1px rgba(0,0,0,0.33);
+}
+
+.cancelChanges:hover{
+	background-color: #22aa2a;
+    color: #273238;
+	cursor: pointer;
+}
+
+.cancelChanges:focus{
+	background-color: #66bb6a;
+}
+
 
 
 

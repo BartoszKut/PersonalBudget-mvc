@@ -5,13 +5,15 @@ namespace App\Controllers;
 use \Core\View;
 use \App\Models\UserSettings;
 
-class UserSetting extends Authenticated /* Require the user to be logged in before giving access to all methods in this controller */
+class UserSetting extends Authenticated 
 {
     public function newAction()
     {
         View::renderTemplate('AppSetting/userSettings.html');
     }
 
+
+    
     public function updateUser()
     {   
         $userSettings = new UserSettings($_POST);

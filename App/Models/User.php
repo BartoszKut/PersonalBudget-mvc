@@ -11,8 +11,6 @@ class User extends \Core\Model
     /* error messages */
     //public $errors = []; it is not necessary, because i decided to use $_SESSION validation with all_ok flag
 
-
-
     /* constructor */
     public function __construct($data = [])
     {
@@ -88,7 +86,7 @@ class User extends \Core\Model
 
 
 
-    /* validation */
+    /* validation methods */
 
     public function nameValidation()
     {
@@ -168,71 +166,6 @@ class User extends \Core\Model
         }
     }
 
-    /*
-    public function validate()
-    {   
-        $all_ok = true;
-        $name = $this -> name;
-        $surname = $this -> surname;
-        $email = $this -> email;
-        $password = $this -> password;
-        $password2 = $this -> password2;
-
-        // Name
-        if((strlen($name) < 3) || (strlen($name) > 20)){
-            //$this -> errors[] = "Imię musi posiadać od 3 do 20 znaków!";
-            $_SESSION['name_error'] = "Imię musi posiadać od 3 do 20 znaków!";
-            $all_ok = false;
-        }
-        if(ctype_alpha($name) == false){
-            //$this -> errors[] = "Imię może składać się tylko z liter! (bez polskich znaków)";
-            $_SESSION['name_error'] = "Imię może składać się tylko z liter! (bez polskich znaków)";
-            $all_ok = false;
-        }
-
-
-        // Surname
-        if((strlen($surname) < 3) || (strlen($surname) > 20)){ 
-            //$this -> errors[] = "Nazwisko musi posiadać od 3 do 20 znaków!";
-            $_SESSION['surname_error'] = "Nazwisko musi posiadać od 3 do 20 znaków!";
-            $all_ok = false;
-        }
-        if(ctype_alpha($surname) == false){
-            //$this -> errors[] = "Nazwisko może składać się tylko z liter! (bez polskich znaków)";
-            $_SESSION['surname_error'] = "Nazwisko może składać się tylko z liter! (bez polskich znaków)";
-            $all_ok = false;
-        }
-
-
-        // Email
-        $safe_email = filter_var($email, FILTER_SANITIZE_EMAIL);
-        
-        if((filter_var($safe_email, FILTER_VALIDATE_EMAIL)==false) || ($safe_email != $email)){
-            //$this -> errors[] = "Podaj poprawny adres email!";
-            $_SESSION['email_error'] = "Podaj poprawny adres email!";
-            $all_ok = false;
-        }
-
-        if(static::emailExist($email)){
-            //$this -> errors[] = "Istnieje już konto przypisane do tego e-maila!";
-            $_SESSION['email_error'] = "Istnieje już konto przypisane do tego e-maila!";
-            $all_ok = false;
-        }
-
-
-        // Password
-        if((strlen($password) < 6) || (strlen($password) > 20)){ 
-            //$this -> errors[] = "Hasło musi posiadać od 6 do 20 znaków!";
-            $_SESSION['password_error'] = "Hasło musi posiadać od 6 do 20 znaków!";
-            $all_ok = false;
-        }
-        if($password != $password2){ 
-            //$this -> errors[] = "Hasła muszą być identyczne!";
-            $_SESSION['password_error'] = "Hasła muszą być identyczne!";
-            $all_ok = false;
-        }
-    }
-    */
 
 
     /* Check is email exists */
@@ -292,9 +225,4 @@ class User extends \Core\Model
         }
         return false;
     }
-
-
-
-    
-
 }

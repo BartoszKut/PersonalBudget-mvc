@@ -26,7 +26,11 @@ class Income extends \Core\Model
     /* save the income model */
     public function save()
     {
-        $this -> validate();
+        $all_ok = true;
+        
+        $this -> amountValidation();
+        $this -> dateValidation();
+        $this -> categoryValidation();
 
         //if(empty($this -> errors)){
         if ($all_ok = true) {
@@ -69,6 +73,44 @@ class Income extends \Core\Model
 
 
     /* validation */
+    public function amountValidation()
+    {
+        if((is_numeric($this -> amount) == false) || ($this -> amount < 0.01) || ($this -> amount > 2147483647)){
+            $_SESSION['error_amount'] = "Podaj prawidłową wartość przychodu";
+            $all_ok = false;
+        }
+    }
+
+
+
+    public function dateValidation()
+    {
+        $date = $this -> date;
+        $Date = strtotime($date);    
+        $timestamp = $Date; 
+        $day=date('d',$timestamp);
+        $month=date('m',$timestamp);
+        $year=date('Y',$timestamp);
+        if(!checkdate($month, $day, $year)){
+            $_SESSION['error_date'] = "Wprowadź poprawną datę";
+            $all_ok = false;
+        }
+    }
+
+
+
+    public function categoryValidation()
+    {
+        if($this -> incomecat == ""){
+            //$this -> errors[] = "Wybierz kategorię przychodu.";
+            $_SESSION['error_category'] = "Wybierz kategorię przychodu";
+            $all_ok = false;
+        }   
+    }
+
+
+    
+    /* validation 
     public function validate()
     {
         $all_ok = true;
@@ -101,7 +143,5 @@ class Income extends \Core\Model
             $_SESSION['error_category'] = "Wybierz kategorię przychodu";
             $all_ok = false;
         }   
-    }
-  
-
+    }*/
 }

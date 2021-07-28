@@ -9,6 +9,8 @@ class IncomeSettings extends Authenticated
 {
     public function newAction()
     {       
+        $arguments['incomesCategories'] = IncomesSettings::getIncomesCategories();
+
         View::renderTemplate('AppSetting/incomesSettings.html');               
     }
 
@@ -16,9 +18,9 @@ class IncomeSettings extends Authenticated
 
     public function updateIncomes()
     {   
-        $incomeSettings = new IncomeSettings($_POST);
+        $incomesSettings = new IncomesSettings($_POST);
 
-        if($incomeSettings -> updateIncomesData()) {
+        if($incomesSettings -> updateIncomesData()) {
             View::renderTemplate('LoggedIn/mainMenu.html');
         }            
     }

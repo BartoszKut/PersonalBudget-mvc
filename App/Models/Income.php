@@ -107,41 +107,4 @@ class Income extends \Core\Model
             $all_ok = false;
         }   
     }
-
-
-    
-    /* validation 
-    public function validate()
-    {
-        $all_ok = true;
-
-        //amount correctness check        
-        if((is_numeric($this -> amount) == false) || ($this -> amount < 0.01) || ($this -> amount > 2147483647)){
-            //$this -> errors[] = "Podaj prawidłową wartość przychodu.";
-            $_SESSION['error_amount'] = "Podaj prawidłową wartość przychodu";
-            $all_ok = false;
-        }
-
-
-        //date correctness check
-        $date = $this -> date;
-        $Date = strtotime($date);    
-        $timestamp = $Date; 
-        $day=date('d',$timestamp);
-        $month=date('m',$timestamp);
-        $year=date('Y',$timestamp);
-        if(!checkdate($month, $day, $year)){
-            //$this -> errors[] = "Wprowadź poprawną datę.";
-            $_SESSION['error_date'] = "Wprowadź poprawną datę";
-            $all_ok = false;
-        }
-
-
-        //category correctness check
-        if($this -> incomecat == ""){
-            //$this -> errors[] = "Wybierz kategorię przychodu.";
-            $_SESSION['error_category'] = "Wybierz kategorię przychodu";
-            $all_ok = false;
-        }   
-    }*/
 }

@@ -39,7 +39,12 @@
                     <div class="col-7">
                         <select id="categoryToDelete" name="categoryToDelete">
                             <option disabled selected value>Wybierz kategorię</option>
-                            <option>Jedzenie</option>
+
+                            {% for incomesCategory in incomesCategories %}
+                                <option>incomesCategory.name</option>
+                            {% endfor %}     
+                                            
+                            <!--<option>Jedzenie</option>
                             <option>Mieszkanie</option>
                             <option>Transport</option>
                             <option>Opieka zdrowotna</option>
@@ -49,7 +54,7 @@
                             <option>Rozrywka</option>
                             <option>Edukacja</option>
                             <option>Oszczędności</option>
-                            <option>Darowizna</option>
+                            <option>Darowizna</option>-->
                         </select>
                     </div>
                 </div>

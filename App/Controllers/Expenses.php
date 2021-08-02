@@ -13,7 +13,11 @@ class Expenses extends Authenticated
     /* Show the add expense page */
     public function newAction()
     {
-        View::renderTemplate('Expense/new.html');
+        $arguments = [];
+        $arguments['expensesCategories'] = Expense::getExpensesCategories();
+        $arguments['paymentMethods'] = Expense::getPaymentMethods();
+
+        View::renderTemplate('Expense/new.html', $arguments);
     }
 
 

@@ -49,15 +49,13 @@
                         <input type="date" name="date" id="theDate" required ></label>
                     </div>
                 </div>
-
                 <div class="form-group row">
                     <label for="incomecat" class="col-5 col-form-label"><h5>Kategoria</h5></label>
                     <div class="col-7" >
                         <select id="incomecat" name="incomecat">
-                            <option>Wypłata</option>
-                            <option>Najem</option>
-                            <option>Allegro</option>
-                            <option>Inne</option>
+                            {% for incomeCategory in incomesCategories %}
+                                <option> {{ incomeCategory }} </option>
+                            {% endfor %}  
                         </select>
                         <button id="edit-button" data-toggle="modal">Edycja</button>
                     </div>

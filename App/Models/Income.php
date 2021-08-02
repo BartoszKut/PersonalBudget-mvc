@@ -5,7 +5,7 @@ namespace App\Models;
 use PDO;
 
 /* Example income model */
-class Income extends \Core\Model
+class Income extends Transaction
 {
 
     /* error messages */
@@ -28,9 +28,9 @@ class Income extends \Core\Model
     {
         $all_ok = true;
         
-        $this -> amountValidation();
-        $this -> dateValidation();
-        $this -> categoryValidation();
+        Transaction::amountValidation($this -> amount);
+        Transaction::dateValidation($this -> date);
+        Transaction::categoryValidation($this -> incomecat);
 
         //if(empty($this -> errors)){
         if ($all_ok = true) {
@@ -72,39 +72,21 @@ class Income extends \Core\Model
 
 
 
-    /* validation */
-    public function amountValidation()
+    public static function getIncomesCategories()
     {
-        if((is_numeric($this -> amount) == false) || ($this -> amount < 0.01) || ($this -> amount > 2147483647)){
-            $_SESSION['error_amount'] = "Podaj prawidłową wartość przychodu";
-            $all_ok = false;
-        }
-    }
+        $logged_user_id = $_SESSION['user_id'];
 
+        $sql_select_incomes_categories = 'SELECT name FROM incomes_category_assigned_to_users WHERE user_id = :logged_user_id';
 
+        $db_select_incomes_categories = static::getDB();
+        $stmt_select_incomes_categories = $db_select_incomes_categories -> prepare($sql_select_incomes_categories);
 
-    public function dateValidation()
-    {
-        $date = $this -> date;
-        $Date = strtotime($date);    
-        $timestamp = $Date; 
-        $day=date('d',$timestamp);
-        $month=date('m',$timestamp);
-        $year=date('Y',$timestamp);
-        if(!checkdate($month, $day, $year)){
-            $_SESSION['error_date'] = "Wprowadź poprawną datę";
-            $all_ok = false;
-        }
-    }
+        $stmt_select_incomes_categories -> bindValue(':logged_user_id', $logged_user_id, PDO::PARAM_INT);
 
+        $stmt_select_incomes_categories -> execute();
 
+        $result_select_incomes_categories = $stmt_select_incomes_categories -> fetchAll(PDO::FETCH_COLUMN, 0);
 
-    public function categoryValidation()
-    {
-        if($this -> incomecat == ""){
-            //$this -> errors[] = "Wybierz kategorię przychodu.";
-            $_SESSION['error_category'] = "Wybierz kategorię przychodu";
-            $all_ok = false;
-        }   
+        return $result_select_incomes_categories;
     }
 }

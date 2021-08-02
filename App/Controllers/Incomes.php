@@ -13,7 +13,9 @@ class Incomes extends Authenticated
     /* Show the add income page */
     public function newAction()
     {
-        View::renderTemplate('Income/new.html');
+        $arguments['incomesCategories'] = Income::getIncomesCategories();
+
+        View::renderTemplate('Income/new.html', $arguments);
     }
 
 

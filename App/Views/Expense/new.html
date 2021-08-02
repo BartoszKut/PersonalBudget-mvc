@@ -54,8 +54,11 @@
                     <label for="paymentmethod" class="col-5 col-form-label"><h5>Metoda płatności</h5></label>
                     <div class="col-7" >
                         <select id="paymentmethod" name="paymentmethod">
-                            <option>Gotówka</option>
-                            <option>Karta</option>
+
+                            {% for paymentMethod in paymentMethods %}
+                                <option> {{ paymentMethod }} </option>
+                            {% endfor %}  
+                            
                         </select>
                         <button id="edit-button" data-toggle="modal">Edycja</button>
                     </div>
@@ -65,17 +68,9 @@
                     <label for="expensecat" class="col-5 col-form-label"><h5>Kategoria</h5></label>
                     <div class="col-7" >
                         <select id="expensecat" name="expensecat">
-                            <option>Jedzenie</option>
-                            <option>Mieszkanie</option>
-                            <option>Transport</option>
-                            <option>Opieka zdrowotna</option>
-                            <option>Garderoba</option>
-                            <option>Higiena</option>
-                            <option>Dzieci</option>
-                            <option>Rozrywka</option>
-                            <option>Edukacja</option>
-                            <option>Oszczędności</option>
-                            <option>Darowizna</option>
+                            {% for expenseCategory in expensesCategories %}
+                                <option> {{ expenseCategory }} </option>
+                            {% endfor %}  
                         </select>
                     </div>
                 </div>

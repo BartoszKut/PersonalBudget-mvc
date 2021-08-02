@@ -5,11 +5,11 @@ namespace App\Models;
 use PDO;
 
 /* Example expense model */
-class Expense extends \Core\Model
+class Expense extends Transaction
 {
 
     /* error messages */
-    public $errors = [];
+    //public $errors = []; errores in $_SESSION[];
 
 
 
@@ -26,10 +26,16 @@ class Expense extends \Core\Model
     /* save the expense model */
     public function save()
     {
-        $this -> validate();
+        $all_ok = true;
+        
+        Transaction::amountValidation($this -> amount);
+        Transaction::dateValidation($this -> date);
+        Transaction::categoryValidation($this -> expensecat);
+        Transaction::paymentMethodValidation($this -> paymentmethod);
 
         //if(empty($this -> errors)){
         if ($all_ok = true) {
+
             $id_user = $_SESSION['user_id'];
 
             // Get payment method id 
@@ -83,48 +89,41 @@ class Expense extends \Core\Model
 
 
 
-    /* validation */
-    public function validate()
+    public static function getExpensesCategories()
     {
-        $all_ok = true;
+        $logged_user_id = $_SESSION['user_id'];
 
-        //amount correctness check        
-        if((is_numeric($this -> amount) == false) || ($this -> amount < 0.01) || ($this -> amount > 2147483647)){
-            //$this -> errors[] = "Podaj prawidłową wartość przychodu.";
-            $_SESSION['error_amount'] = "Podaj prawidłową wartość przychodu";
-            $all_ok = false;
-        }
+        $sql_select_expenses_categories = 'SELECT name FROM expenses_category_assigned_to_users WHERE user_id = :logged_user_id';
 
+        $db_select_expenses_categories = static::getDB();
+        $stmt_select_expenses_categories = $db_select_expenses_categories -> prepare($sql_select_expenses_categories);
 
-        //date correctness check
-        $date = $this -> date;
-        $Date = strtotime($date);    
-        $timestamp = $Date; 
-        $day=date('d',$timestamp);
-        $month=date('m',$timestamp);
-        $year=date('Y',$timestamp);
-        if(!checkdate($month, $day, $year)){
-            //$this -> errors[] = "Wprowadź poprawną datę.";
-            $_SESSION['error_date'] = "Wprowadź poprawną datę";
-            $all_ok = false;
-        }
+        $stmt_select_expenses_categories -> bindValue(':logged_user_id', $logged_user_id, PDO::PARAM_INT);
 
+        $stmt_select_expenses_categories -> execute();
 
-        //category correctness check
-        if($this -> expensecat == ""){
-            //$this -> errors[] = "Wybierz kategorię przychodu.";
-            $_SESSION['error_category'] = "Wybierz kategorię przychodu";
-            $all_ok = false;
-        }   
+        $result_select_expenses_categories = $stmt_select_expenses_categories -> fetchAll(PDO::FETCH_COLUMN, 0);
 
-
-        //paymnet method correctness check
-        if($this -> paymentmethod == ""){
-            //$this -> errors[] = "Wybierz rodzaj płatności.";
-            $_SESSION['error_paymentmethod'] = "Wybierz rodzaj płatności";
-            $all_ok = false;
-        }   
+        return $result_select_expenses_categories;
     }
-  
 
+
+
+    public static function getPaymentMethods()
+    {
+        $logged_user_id = $_SESSION['user_id'];
+
+        $sql_select_payment_methods = 'SELECT name FROM payment_methods_assigned_to_users WHERE user_id = :logged_user_id';
+
+        $db_select_payment_methods = static::getDB();
+        $stmt_select_payment_methods = $db_select_payment_methods -> prepare($sql_select_payment_methods);
+
+        $stmt_select_payment_methods -> bindValue(':logged_user_id', $logged_user_id, PDO::PARAM_INT);
+
+        $stmt_select_payment_methods -> execute();
+
+        $result_select_payment_methods = $stmt_select_payment_methods -> fetchAll(PDO::FETCH_COLUMN, 0);
+
+        return $result_select_payment_methods;
+    }
 }

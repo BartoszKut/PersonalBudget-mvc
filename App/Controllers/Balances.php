@@ -21,7 +21,7 @@ class Balances extends Authenticated
         $arguments['expenses_sum'] = Balance::getSumOfExpenses($firstDate, $secondDate);
         $arguments['incomes'] = Balance::getIncomes($firstDate, $secondDate);
         $arguments['expenses'] = Balance::getExpenses($firstDate, $secondDate);
-        $arguments['information'] = saveOrNo($amount);     
+        $arguments['information'] = ($amount);     
         
         View::renderTemplate('Balance/SelectedDates.html', $arguments);
     }

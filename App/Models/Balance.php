@@ -263,6 +263,10 @@ class Balance extends \Core\Model
 
                 $result_expenses_details = $stmt_expenses_details -> fetchAll();
 
+                //$result_expenses_details = $stmt_expenses_details ->fetchAll(PDO::FETCH_COLUMN, 0);
+
+                var_dump($result_expenses_details);
+
                 return $result_expenses_details;
             }
     }
@@ -313,9 +317,11 @@ class Balance extends \Core\Model
         $secondDate = new DateTime('last day of this month');
         $secondDate = $secondDate -> format('Y-m-d');
 
-        $balance = static::balanceAmount($firstDate, $secondDate);  
+        $balance = static::balanceAmount($firstDate, $secondDate); 
+        $incomes_sum = static::getSumOfIncomes($firstDate, $secondDate);
+        $expenses_sum = static::getSumOfExpenses($firstDate, $secondDate); 
         
-        return $information = static::saveOrNo($balance);
+        return $information = static::saveOrNo($balance, $incomes_sum, $expenses_sum);
     }
 
 
@@ -342,7 +348,7 @@ class Balance extends \Core\Model
 
 
 
-    public static function saveOrNo($amount) 
+    public static function saveOrNo($amount, $incomes_sum, $expenses_sum) 
     {
         if($amount > 0) $_SESSION['information'] = "Zaoszczędziłeś ".$amount." zł";
         else if($amount < 0){

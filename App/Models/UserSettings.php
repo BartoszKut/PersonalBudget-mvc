@@ -78,25 +78,25 @@ class UserSettings extends User
         $password2 = $this -> password2;
 
         if($name != "" && $name != $_SESSION['user_name']) {
-            $this -> nameValidation();
+            User::nameValidation($this -> name);
         } else {
             $name = $_SESSION['user_name'];
         }
 
         if($surname != "" && $surname != $_SESSION['user_surname']) {
-            $this -> surnameValidation();
+            User::surnameValidation($this -> surname);
         } else {
             $surname = $_SESSION['user_surname'];
         }
 
         if($email != "" && $email != $_SESSION['user_email']) {
-            $this -> emailValidation();
+            User::emailValidation($this -> email);
         } else {
             $email = $_SESSION['user_email'];
         }
 
         if($password != "") {
-            $this -> passwordValidation();
+            User::passwordValidation($this -> password, $this -> password2);
         }
     }     
 }

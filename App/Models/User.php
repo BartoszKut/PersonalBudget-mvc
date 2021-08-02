@@ -24,10 +24,12 @@ class User extends \Core\Model
     /* save the user model */
     public function save()
     {
-        $this -> nameValidation();
-        $this -> surnameValidation();
-        $this -> emailValidation();
-        $this -> passwordValidation();
+        $all_ok = true;
+
+        User::nameValidation($this -> name);
+        User::surnameValidation($this -> surname);
+        User::emailValidation($this -> email);
+        User::passwordValidation($this -> password, $this -> password2);
 
         //if(empty($this -> errors)){
         if ($all_ok = true) {
@@ -88,10 +90,9 @@ class User extends \Core\Model
 
     /* validation methods */
 
-    public function nameValidation()
+    public static function nameValidation($name)
     {
-        $all_ok = true;
-        $name = $this -> name;
+        //$all_ok = true;
 
         if((strlen($name) < 3) || (strlen($name) > 20)){
             //$this -> errors[] = "Imię musi posiadać od 3 do 20 znaków!";
@@ -107,10 +108,9 @@ class User extends \Core\Model
 
 
 
-    public function surnameValidation()
+    public static function surnameValidation($surname)
     {
         //$all_ok = true;
-        $surname = $this -> surname;
 
         if((strlen($surname) < 3) || (strlen($surname) > 20)){ 
             //$this -> errors[] = "Nazwisko musi posiadać od 3 do 20 znaków!";
@@ -126,10 +126,9 @@ class User extends \Core\Model
 
 
 
-    public function emailValidation()
+    public static function emailValidation($email)
     {
         //$all_ok = true;
-        $email = $this -> email;
 
         $safe_email = filter_var($email, FILTER_SANITIZE_EMAIL);
         
@@ -148,11 +147,9 @@ class User extends \Core\Model
 
 
 
-    public function passwordValidation()
+    public static function passwordValidation($password, $password2)
     {   
         //$all_ok = true;
-        $password = $this -> password;
-        $password2 = $this -> password2;
 
         if((strlen($password) < 6) || (strlen($password) > 20)){ 
             //$this -> errors[] = "Hasło musi posiadać od 6 do 20 znaków!";

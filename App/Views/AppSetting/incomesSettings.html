@@ -38,23 +38,12 @@
                     <label for="categoryToDelete" class="col-5 col-form-label"><h5>Usuń wybraną kategorię</h5></label>
                     <div class="col-7">
                         <select id="categoryToDelete" name="categoryToDelete">
-                            <option disabled selected value>Wybierz kategorię</option>
+                            <option selected value>Wybierz kategorię</option>
 
-                            {% for incomesCategory in incomesCategories %}
-                                <option>incomesCategory.name</option>
-                            {% endfor %}     
+                            {% for incomeCategory in incomesCategories %}
+                                <option> {{ incomeCategory }} </option>
+                            {% endfor %}  
                                             
-                            <!--<option>Jedzenie</option>
-                            <option>Mieszkanie</option>
-                            <option>Transport</option>
-                            <option>Opieka zdrowotna</option>
-                            <option>Garderoba</option>
-                            <option>Higiena</option>
-                            <option>Dzieci</option>
-                            <option>Rozrywka</option>
-                            <option>Edukacja</option>
-                            <option>Oszczędności</option>
-                            <option>Darowizna</option>-->
                         </select>
                     </div>
                 </div>

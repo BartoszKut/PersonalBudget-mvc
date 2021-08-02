@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{% block title %}Incomes settings{% endblock %}
+{% block title %}Expenses settings{% endblock %}
 
 {% block body %}
 
@@ -25,7 +25,7 @@
                 <h1>Edycja kategorii wydatków</h1>
             </div>
 
-            <form action="/AppSettings/create???" method="post">
+            <form action="/ExpenseSettings/updateExpenses" method="post">
 
                 <div class="form-group row">
                     <label for="newExpenseCategory" class="col-5 col-form-label"><h5>Wprowadź nową kategorię</h5></label>
@@ -35,46 +35,59 @@
                 </div>
 
                 <div class="form-group row">
-                    <label for="deleteExpenseCategory" class="col-5 col-form-label"><h5>Usuń wybraną kategorię</h5></label>
+                    <label for="categoryToDelete" class="col-5 col-form-label"><h5>Usuń wybraną kategorię</h5></label>
                     <div class="col-7" >
-                        <select id="deleteExpenseCategory" name="deleteExpenseCategory">
-                            <option disabled selected value>Wybierz kategorię</option>
-                            <option>Jedzenie</option>
-                            <option>Mieszkanie</option>
-                            <option>Transport</option>
-                            <option>Opieka zdrowotna</option>
-                            <option>Garderoba</option>
-                            <option>Higiena</option>
-                            <option>Dzieci</option>
-                            <option>Rozrywka</option>
-                            <option>Edukacja</option>
-                            <option>Oszczędności</option>
-                            <option>Darowizna</option>
+                        <select id="categoryToDelete" name="categoryToDelete">
+                            <option selected value>Wybierz kategorię</option>
+
+                            {% for expenseCategory in expensesCategories %}
+                                <option> {{ expenseCategory }} </option>
+                            {% endfor %}  
+
                         </select>
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="paymentmethod" class="col-5 col-form-label"><h5>Ustaw limit kategorii</h5></label>
+                    <label for="expenseLimitCategory" class="col-5 col-form-label"><h5>Ustaw limit kategorii</h5></label>
                     <div class="col-7" >
-                        <input type="number" name="paymentmethod" step="0.01" min="0"></label>
+                        <select id="expenseLimitCategory" name="expenseLimitCategory">
+                            <option selected value>Wybierz kategorię</option>
+
+                            {% for expenseCategory in expensesCategories %}
+                                <option> {{ expenseCategory }} </option>
+                            {% endfor %}  
+
+                        </select>
+                    </label>
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="addPaymentMethod" class="col-5 col-form-label"><h5>Dodaj formę płatności</h5></label>
+                    <label for="expenseLimit" class="col-5 col-form-label"><h5>Wprowadź wartość limitu</h5></label>
                     <div class="col-7" >
-                        <textarea name="addPaymentMethod" id="addPaymentMethod" rows="1"></textarea>
+                        <input type="number" name="expenseLimit"   id="expenseLimit" step="0.01" min="0">
+                    </label>
                     </div>
                 </div>
 
                 <div class="form-group row">
-                    <label for="deletePaymentMethod" class="col-5 col-form-label"><h5>Usuń formę płatności</h5></label>
+                    <label for="newPaymentMethod" class="col-5 col-form-label"><h5>Dodaj formę płatności</h5></label>
                     <div class="col-7" >
-                        <select id="deletePaymentMethod" name="deletePaymentMethod">
-                            <option disabled selected value>Wybierz formę płatności</option>
-                            <option>Gotówka</option>
-                            <option>Karta</option>
+                        <textarea name="newPaymentMethod" id="newPaymentMethod" rows="1"></textarea>
+                    </div>
+                </div>
+
+                <div class="form-group row">
+                    <label for="paymentMethodToDelete" class="col-5 col-form-label"><h5>Usuń formę płatności</h5></label>
+                    <div class="col-7" >
+                        <select id="paymentMethodToDelete" name="paymentMethodToDelete">
+                            <option selected value>Wybierz formę płatności</option>
+                            
+                            {% for paymentMethod in paymentMethods %}
+                                <option> {{ paymentMethod }} </option>
+                            {% endfor %}  
+
                         </select>
                     </div>
                 </div>

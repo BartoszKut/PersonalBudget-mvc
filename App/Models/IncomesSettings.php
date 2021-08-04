@@ -60,5 +60,39 @@ class IncomesSettings extends Income
         }
         return true;
     }    
-     
+
+
+
+    public function updateModalIncomesData()
+    {   
+        $all_ok = true;
+        $newIncomeCategory = $this -> incomeCategory;
+        $user_id = $_SESSION['user_id'];
+
+        $arguments = Income::getIncomesCategories();
+
+        $categoryInDatabase = in_array($this -> newIncomeCategory, $arguments);
+        
+        if($newIncomeCategory != "" && $categoryInDatabase == false) {
+            Transaction::newCategoryValidation($this -> newIncomeCategory);          
+
+            if($all_ok == true) {
+                $sql_new_incomes_cat = 'INSERT INTO incomes_category_assigned_to_users (id, user_id, name) VALUES (NULL, :user_id, :newIncomeCategory)';
+
+                $db_new_incomes_cat = static::getDB();
+                $stmt_new_incomes_cat = $db_new_incomes_cat -> prepare($sql_new_incomes_cat);
+    
+                $stmt_new_incomes_cat -> bindValue(':user_id', $user_id, PDO::PARAM_INT);
+                $stmt_new_incomes_cat -> bindValue(':newIncomeCategory', $this -> newIncomeCategory, PDO::PARAM_STR);
+    
+                $stmt_new_incomes_cat -> execute();
+            }
+        }
+        return true;
+    }  
+
 }
+
+
+
+

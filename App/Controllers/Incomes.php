@@ -15,7 +15,7 @@ class Incomes extends Authenticated
     {
         $arguments['incomesCategories'] = Income::getIncomesCategories();
 
-        View::renderTemplate('Income/new.php', $arguments);
+        View::renderTemplate('Income/new.html', $arguments);
     }
 
 

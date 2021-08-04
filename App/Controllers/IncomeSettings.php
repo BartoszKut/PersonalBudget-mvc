@@ -27,4 +27,15 @@ class IncomeSettings extends Authenticated
     }
 
 
+
+    public function modalUpdateIncomes()
+    {   
+        $incomesSettings = new IncomesSettings($_POST);
+
+        if($incomesSettings -> updateModalIncomesData()) {
+            View::renderTemplate('LoggedIn/mainMenu.html');
+        }            
+    }
+
+
 }

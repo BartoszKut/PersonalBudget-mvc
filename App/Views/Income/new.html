@@ -98,7 +98,7 @@
                 <form method="post" id="insert_form">
                     <div>
                         <label class="title" for="incomeCategory"><p>Kategoria przychodu:</p></label>
-                        <textarea name="incomeCategory" id="incomeCategory" rows="1"></textarea>
+                        <textarea name="incomeCategory" id="incomeCategory" rows="1" required></textarea>
                     </div>
 
                     <div class="modal-footer">
@@ -152,7 +152,7 @@
             else 
             {
                 $.ajax({
-                    url: "insert.php",
+                    url: "IncomeSettings/modalUpdateIncomes",
                     method: "POST",
                     data: $('#insert_form').serialize(),
                     beforeSend:function(){  
@@ -165,7 +165,7 @@
                     }
                 });
             }
-        }
+        });
     });
 </script>
 

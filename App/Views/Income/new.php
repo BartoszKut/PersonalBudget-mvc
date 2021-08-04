@@ -11,7 +11,7 @@
                 <li>{{ error }}</li>
             {% endfor %}
         </ul>
-{% endif %}
+{% endif %} 
 
 <main>
     <div class="container-fluid">
@@ -81,6 +81,8 @@
     </div>
 </main>
 
+
+
 <!-- Modal change category value -->
 <div class="modal" id="myModal">
     <div class="modal-dialog" role="document">
@@ -93,26 +95,25 @@
             </div>
 
             <div class="modal-body">
-           
-                <div>
-                    <label class="title" for="incomeCategory"><p>Kategoria przychodu:</p></label>
-                    <textarea name="incomeCategory" id="incomeCategory" rows="1"></textarea>
-                </div>
-            </div>
-        </div>
+                <form method="post" id="insert_form">
+                    <div>
+                        <label class="title" for="incomeCategory"><p>Kategoria przychodu:</p></label>
+                        <textarea name="incomeCategory" id="incomeCategory" rows="1"></textarea>
+                    </div>
 
-        <div class="modal-footer">
-            <button type="button" class="btn btn-primary acceptChanges">Zapisz zmiany</button>
-            <button type="button" class="btn btn-secondary cancelChanges" data-dismiss="modal">Anuluj</button>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary cancelChanges" data-dismiss="modal">Anuluj</button>
+                        <button type="submit" id="insert" class="btn btn-primary acceptChanges">Zapisz zmiany</button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 </div>
 
 {% endblock %}
 
-
 {% block scripts %}
-
 <script>
 
     // Get the modal
@@ -140,6 +141,33 @@
         modal.style.display = "none";
       }
     }
+
+    $(document).ready(function(){
+        $('#insert_form').on("submit", function(event){
+            event.preventDefault();
+            if($('#incomeCategory').val() == '') 
+            {
+                alert("Wprowadź nową kategorię!");
+            } 
+            else 
+            {
+                $.ajax({
+                    url: "insert.php",
+                    method: "POST",
+                    data: $('#insert_form').serialize(),
+                    beforeSend:function(){  
+                        $('#insert').val("Inserting");  
+                        },  
+                    success: function(data) {
+                        $('#insert_form')[0].reset();
+                        $('#myModal').modal('hide');
+                        $('#incomecat').html(data);
+                    }
+                });
+            }
+        }
+    });
 </script>
 
 {% endblock %}
+

@@ -30,8 +30,6 @@ class IncomesSettings extends Income
         $arguments = Income::getIncomesCategories();
 
         $categoryInDatabase = in_array($this -> newIncomeCategory, $arguments);
-
-        //var_dump($categoryInDatabase);    
         
         if($newIncomeCategory != "" && $categoryInDatabase == false) {
             Transaction::newCategoryValidation($this -> newIncomeCategory);          

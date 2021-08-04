@@ -9,7 +9,7 @@ class User extends \Core\Model
 {
 
     /* error messages */
-    //public $errors = []; it is not necessary, because i decided to use $_SESSION validation with all_ok flag
+    public $errors = []; //it is not necessary, because i decided to use $_SESSION validation with all_ok flag
 
     /* constructor */
     public function __construct($data = [])
@@ -219,7 +219,8 @@ class User extends \Core\Model
             if (password_verify($password, $user -> password)) {
                 return $user;
             }
+        } else {
+            return false;
         }
-        return false;
     }
 }

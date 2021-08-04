@@ -12,6 +12,8 @@ use \App\Flash;
 
 class Login extends \Core\Controller
 {
+     /* error messages */
+    //public $errors = []; //errores in $_SESSION[];
 
     /* Show the login page */
     public function newAction()
@@ -33,10 +35,11 @@ class Login extends \Core\Controller
     public function createAction()
     {
         $user = User::authenticate($_POST['email'], $_POST['password']);
+        //var_dump($_SESSION['error_passOrEmail']);
 
         if ($user) {
 
-            Auth::login($user);
+            Auth::login($user);           
 
             $_SESSION['return_to'] = '/login/success';
             //$this -> redirect('/PersonalBudget-mvc/public/login/success');
@@ -45,7 +48,7 @@ class Login extends \Core\Controller
         } else {
 
             View::renderTemplate('Login/new.html', [
-                'email' => $_POST['email']
+                'email' => $_POST['email'],
             ]);
         }
     }

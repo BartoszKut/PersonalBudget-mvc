@@ -107,30 +107,31 @@
             </div>
 
             <div class="modal-body">
-           
-                <div>
-                    <label class="title" for="expenseCategory"><p>Kategoria wydatku:</p></label>
-                    <textarea name="expenseCategory" id="expenseCategory" rows="1"></textarea>
-                </div>
-
-                <div>
-                    <input type="checkbox" id="scales" name="scales">
-                    <label for="scales">Ustaw limit dla kategorii</label>
-                </div>
-
-                <div>
-                    <label for="incomeLimit"><p>Podaj wartość limitu</p></label>
+                <form method="post" id="insert_form">        
                     <div>
-                        <input type="number" name="incomeLimit" step="0.01" min="0" required>
+                        <label class="title" for="expenseCategory"><p>Kategoria wydatku:</p></label>
+                        <textarea name="expenseCategory" id="expenseCategory" rows="1"></textarea>
                     </div>
-                </div>
+                    <div>
+                        <input type="checkbox" id="scales" name="scales">
+                        <label for="scales">Ustaw limit dla kategorii</label>
+                    </div>
+                    <div>
+                        <label for="incomeLimit"><p>Podaj wartość limitu</p></label>
+                        <div>
+                            <input type="number" name="incomeLimit" step="0.01" min="0" required>
+                        </div>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary cancelChanges" data-dismiss="modal">Anuluj</button>
+                        <button type="submit" class="btn btn-primary acceptChanges">Zapisz zmiany</button>
+                    </div>
+                </form>   
             </div>
         </div>
 
-        <div class="modal-footer">
-            <button type="button" class="btn btn-primary acceptChanges">Zapisz zmiany</button>
-            <button type="button" class="btn btn-secondary cancelChanges" data-dismiss="modal">Anuluj</button>
-        </div>
+        
     </div>
 </div>
 

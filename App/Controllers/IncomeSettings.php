@@ -26,4 +26,5 @@ class IncomeSettings extends Authenticated
         }            
     }
 
+
 }

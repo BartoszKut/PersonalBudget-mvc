@@ -30,9 +30,11 @@ class IncomeSettings extends Authenticated
 
     public function modalUpdateIncomes()
     {   
+
+        var_dump($_POST);
         $incomesSettings = new IncomesSettings($_POST);
 
-        var_dump($incomesSettings);
+        
 
         echo 'działa';
 

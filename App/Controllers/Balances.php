@@ -12,7 +12,7 @@ use \Datetime;
 
 class Balances extends Authenticated
 {
-    public function selectedDatesBalanceTemplate($firstDate, $secondDate)
+    /*public function selectedDatesBalanceTemplate($firstDate, $secondDate)
     {
         $arguments = [];
         $arguments['firstDate'] = $firstDate;
@@ -20,11 +20,13 @@ class Balances extends Authenticated
         $arguments['incomes_sum'] = Balance::getSumOfIncomes($firstDate, $secondDate);
         $arguments['expenses_sum'] = Balance::getSumOfExpenses($firstDate, $secondDate);
         $arguments['incomes'] = Balance::getIncomes($firstDate, $secondDate);
+        $arguments['incomes_details'] = Balance::getDetailsOfIncomes($firstDay, $lastDay);
         $arguments['expenses'] = Balance::getExpenses($firstDate, $secondDate);
+        $arguments['expenses_details'] = Balance::getDetailsOfExpenses($firstDay, $lastDay);
         $arguments['information'] = ($amount);     
         
         View::renderTemplate('Balance/SelectedDates.html', $arguments);
-    }
+    }*/
 
 
 
@@ -64,8 +66,10 @@ class Balances extends Authenticated
         $arguments['incomes_sum'] = Balance::getSumOfIncomes($firstDay, $lastDay);
         $arguments['expenses_sum'] = Balance::getSumOfExpenses($firstDay, $lastDay);
         $arguments['incomes'] = Balance::getIncomes($firstDay, $lastDay);
+        $arguments['incomes_details'] = Balance::getDetailsOfIncomes($firstDay, $lastDay);
         $arguments['expenses'] = Balance::getExpenses($firstDay, $lastDay);
-        //$arguments['information'] = Balance::saveOrNo($amount);       
+        $arguments['expenses_details'] = Balance::getDetailsOfExpenses($firstDay, $lastDay);
+        //$arguments['information'] = Balance::saveOrNo();       
         
         View::renderTemplate('Balance/PreviousMonth.html', $arguments);
     }
@@ -93,7 +97,9 @@ class Balances extends Authenticated
             $arguments['incomes_sum'] = Balance::getSumOfIncomes($firstDay, $lastDay);
             $arguments['expenses_sum'] = Balance::getSumOfExpenses($firstDay, $lastDay);
             $arguments['incomes'] = Balance::getIncomes($firstDay, $lastDay);
+            $arguments['incomes_details'] = Balance::getDetailsOfIncomes($firstDay, $lastDay);
             $arguments['expenses'] = Balance::getExpenses($firstDay, $lastDay);
+            $arguments['expenses_details'] = Balance::getDetailsOfExpenses($firstDay, $lastDay);
             //$arguments['information'] = saveOrNo($amount);     
             
             View::renderTemplate('Balance/SelectedDates.html', $arguments);

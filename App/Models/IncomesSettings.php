@@ -65,6 +65,8 @@ class IncomesSettings extends Income
 
     public function updateModalIncomesData()
     {   
+
+        echo "Dociera do tej funkcji";
         $all_ok = true;
         $newIncomeCategory = $this -> incomeCategory;
         $user_id = $_SESSION['user_id'];

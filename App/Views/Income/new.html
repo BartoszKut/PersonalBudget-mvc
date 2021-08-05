@@ -95,7 +95,7 @@
             </div>
 
             <div class="modal-body">
-                <form method="post" id="insert_form">
+                <div>
                     <div>
                         <label class="title" for="incomeCategory"><p>Kategoria przychodu:</p></label>
                         <textarea name="incomeCategory" id="incomeCategory" rows="1" required></textarea>
@@ -103,9 +103,10 @@
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary cancelChanges" id="cancel" data-dismiss="modal">Anuluj</button>
-                        <button type="submit" id="insert" class="btn btn-primary acceptChanges">Zapisz zmiany</button>
+                        <button id="insert" onclick="sendData()" name="insert" v class="btn btn-primary acceptChanges">Zapisz zmiany</button>
+                        <!--Wywołanie funkcji -->
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </div>
@@ -114,7 +115,7 @@
 {% endblock %}
 
 {% block scripts %}
-<script>
+<script type="text/javascript">
 
     // Get the modal
     var modal = document.getElementById("myModal");
@@ -138,7 +139,7 @@
       modal.style.display = "none";
     }
 
-    // When the user clicks on <span> (x), close the modal
+    // When the user clicks on Anuluj, close the modal
     can.onclick = function() {
       modal.style.display = "none";
     }
@@ -150,10 +151,38 @@
       }
     }
 
-    console.log(document.getElementById('incomeCategory').value) 
 
-    $(document).ready(function(){
-        $('#insert_form').on("submit", function(event){
+    const postBtn = document.getElementById('insert');
+
+
+    const sendHttpRequest = (method, url, data) => {
+        return fetch(url, {
+            method: method,
+            body: JSON.stringify(data),
+            headers: data ? {'Content-Type': 'application.json' } : {}
+        }).then(response => {
+            return response.json();
+        });
+    };
+
+
+    const sendData = () => {
+        sendHttpRequest('POST', '/IncomeSettings/modalUpdateIncomes', {
+            newCategory: 'Hababa'
+        }).then(responseData => {
+            console.log(responseData);
+        });
+    };
+
+
+
+
+
+
+
+
+    /*$(document).ready(function(){
+        $('#insert_form').on("#submit", function(event){
             event.preventDefault();
             if($('#incomeCategory').val() == '') 
             {
@@ -176,7 +205,7 @@
                 });
             }
         });
-    });
+    });*/
 </script>
 
 {% endblock %}

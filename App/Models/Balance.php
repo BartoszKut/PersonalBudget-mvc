@@ -170,7 +170,7 @@ class Balance extends \Core\Model
         $result_sum_of_incomes = $stmt_incomes -> fetchAll();
 
         foreach($result_sum_of_incomes as $month_incomes) {
-            $sql_incomes_details = 'SELECT incomes.date_of_income as Date, incomes.income_comment as Comment, incomes.amount as Amount FROM incomes INNER JOIN incomes_category_assigned_to_users as category_incomes WHERE incomes.income_category_assigned_to_user_id = category_incomes.id AND incomes.user_id
+            $sql_incomes_details = 'SELECT category_incomes.name as Category, incomes.date_of_income as Date, incomes.income_comment as Comment, incomes.amount as Amount FROM incomes INNER JOIN incomes_category_assigned_to_users as category_incomes WHERE incomes.income_category_assigned_to_user_id = category_incomes.id AND incomes.user_id
             = :id_user AND incomes.date_of_income >= :first_date AND incomes.date_of_income <= :second_date AND category_incomes.name = :category_name ORDER BY Date';
 
             $db_incomes_details = static::getDB();
@@ -253,9 +253,7 @@ class Balance extends \Core\Model
         //var_dump($result_sum_of_expenses);
 
             foreach($result_sum_of_expenses as $month_expenses) {
-                //$sql_expenses_details = 'SELECT expenses.date_of_expense as date, expenses.expense_comment as comment, expenses.amount as amount FROM expenses INNER JOIN expenses_category_assigned_to_users as category_expenses WHERE expenses.expense_category_assigned_to_user_id = category_expenses.id AND expenses.user_id= :id_user AND expenses.date_of_expense >= :first_date AND expenses.date_of_expense <= :second_date AND category_expenses.name = :category_name ORDER BY date';
-
-                $sql_expenses_details = 'SELECT expenses.date_of_expense as date, expenses.expense_comment as comment, expenses.amount as amount FROM expenses INNER JOIN expenses_category_assigned_to_users as category_expenses WHERE expenses.expense_category_assigned_to_user_id = category_expenses.id AND expenses.user_id= :id_user AND expenses.date_of_expense >= :first_date AND expenses.date_of_expense <= :second_date AND category_expenses.name = :category_name ORDER BY date';
+                $sql_expenses_details = 'SELECT category_expenses.name as category, expenses.date_of_expense as date, expenses.expense_comment as comment, expenses.amount as amount FROM expenses INNER JOIN expenses_category_assigned_to_users as category_expenses WHERE expenses.expense_category_assigned_to_user_id = category_expenses.id AND expenses.user_id= :id_user AND expenses.date_of_expense >= :first_date AND expenses.date_of_expense <= :second_date AND category_expenses.name = :category_name ORDER BY date';
 
                 $db_expenses_details = static::getDB();
                 $stmt_expenses_details = $db_expenses_details -> prepare($sql_expenses_details);
@@ -268,9 +266,7 @@ class Balance extends \Core\Model
 
                 $result_expenses_details = $stmt_expenses_details -> fetchAll();
 
-                //$result_expenses_details = $stmt_expenses_details ->fetchAll(PDO::FETCH_COLUMN, 0);
-
-                var_dump($result_expenses_details);
+                //var_dump($result_expenses_details);
 
                 return $result_expenses_details;
             }
@@ -285,17 +281,16 @@ class Balance extends \Core\Model
 
 
         array(5) { 
-            [0]=> array(6) { 
-                ["date"]=> string(10) "2021-08-01" [0]=> string(10) "2021-08-01" ["comment"]=> string(5) "Sushi" [1]=> string(5) "Sushi" ["amount"]=> string(6) "120.00" [2]=> string(6) "120.00" } 
-            [1]=> array(6) { 
-                ["date"]=> string(10) "2021-08-01" [0]=> string(10) "2021-08-01" ["comment"]=> string(16) "Taca w kościele" [1]=> string(16) "Taca w kościele" ["amount"]=> string(5) "10.00" [2]=> string(5) "10.00" } 
-            [2]=> array(6) { 
-                ["date"]=> string(10) "2021-08-01" [0]=> string(10) "2021-08-01" ["comment"]=> string(6) "Banany" [1]=> string(6) "Banany" ["amount"]=> string(5) "22.00" [2]=> string(5) "22.00" } 
-            [3]=> array(6) { 
-                ["date"]=> string(10) "2021-08-01" [0]=> string(10) "2021-08-01" ["comment"]=> string(7) "Melanż" [1]=> string(7) "Melanż" ["amount"]=> string(7) "1000.00" [2]=> string(7) "1000.00" } 
-            [4]=> array(6) { 
-                ["date"]=> string(10) "2021-08-04" [0]=> string(10) "2021-08-04" ["comment"]=> string(4) "Leki" [1]=> string(4) "Leki" ["amount"]=> string(6) "121.00" [2]=> string(6) "121.00" } }
-
+            [0]=> array(8) { 
+                ["category"]=> string(8) "Rozrywka" [0]=> string(8) "Rozrywka" ["date"]=> string(10) "2021-08-01" [1]=> string(10) "2021-08-01" ["comment"]=> string(5) "Sushi" [2]=> string(5) "Sushi" ["amount"]=> string(6) "120.00" [3]=> string(6) "120.00" } 
+            [1]=> array(8) { 
+                ["category"]=> string(9) "Darowizna" [0]=> string(9) "Darowizna" ["date"]=> string(10) "2021-08-01" [1]=> string(10) "2021-08-01" ["comment"]=> string(16) "Taca w kościele" [2]=> string(16) "Taca w kościele" ["amount"]=> string(5) "10.00" [3]=> string(5) "10.00" } 
+            [2]=> array(8) { 
+                ["category"]=> string(8) "Jedzenie" [0]=> string(8) "Jedzenie" ["date"]=> string(10) "2021-08-01" [1]=> string(10) "2021-08-01" ["comment"]=> string(6) "Banany" [2]=> string(6) "Banany" ["amount"]=> string(5) "22.00" [3]=> string(5) "22.00" } 
+            [3]=> array(8) { 
+                ["category"]=> string(8) "Rozrywka" [0]=> string(8) "Rozrywka" ["date"]=> string(10) "2021-08-01" [1]=> string(10) "2021-08-01" ["comment"]=> string(7) "Melanż" [2]=> string(7) "Melanż" ["amount"]=> string(7) "1000.00" [3]=> string(7) "1000.00" } 
+            [4]=> array(8) { 
+                ["category"]=> string(16) "Opieka zdrowotna" [0]=> string(16) "Opieka zdrowotna" ["date"]=> string(10) "2021-08-04" [1]=> string(10) "2021-08-04" ["comment"]=> string(4) "Leki" [2]=> string(4) "Leki" ["amount"]=> string(6) "121.00" [3]=> string(6) "121.00" } }
 
 
 

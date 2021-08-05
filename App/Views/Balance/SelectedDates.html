@@ -39,10 +39,14 @@
                         {% for income in incomes %}
                             <div class="card-header">{{ income.Category }}: {{ income.Amount }} zł</div>                        
 
-                        {% for income in incomes_details %}
-                            <ul class="list-group list-group-flush"><li class="list-group-item"><i class="fas fa-long-arrow-alt-right"></i>{{ income.Amount }} - {{ income.Date }} - {{ income.Comment}} '<i class="fas fa-edit"></i><i class="fas fa-trash-alt ml-1"></i> </li></ul>
-                        {% endfor %}
-                        {% endfor %}
+                            {% for incomee in incomes_details %}
+
+                            {% if income.Category == incomee.Category %}
+                                <ul class="list-group list-group-flush"><li class="list-group-item"><i class="fas fa-long-arrow-alt-right"></i>{{ incomee.Amount }} - {{ incomee.Date }} - {{ incomee.Comment}} '<i class="fas fa-edit"></i><i class="fas fa-trash-alt ml-1"></i> </li></ul>    
+                            {% endif %}
+
+                            {% endfor %}
+                            {% endfor %}
                         </div>                          
 
                         
@@ -51,10 +55,14 @@
                             {% for expense in expenses %}
                             <div class="card-header">{{ expense.category }}: {{ expense.amount }} zł</div>                        
 
-                        {% for expense in expenses_details %}
-                            <ul class="list-group list-group-flush"><li class="list-group-item"><i class="fas fa-long-arrow-alt-right"></i>{{ expense.amount }} - {{ expense.date }} - {{ expense.comment}} <i class="fas fa-edit"></i><i class="fas fa-trash-alt ml-1"></i> </li></ul>
-                        {% endfor %}
-                        {% endfor %}
+                            {% for expensee in expenses_details %}
+
+                            {% if expense.category == expensee.category %}
+                                <ul class="list-group list-group-flush"><li class="list-group-item"><i class="fas fa-long-arrow-alt-right"></i>{{ expensee.amount }} - {{ expensee.date }} - {{ expensee.comment}} <i class="fas fa-edit"></i><i class="fas fa-trash-alt ml-1"></i> </li></ul>
+                            {% endif %}
+
+                            {% endfor %}
+                            {% endfor %}
                         </div>
                     </div>
                     <div class="row information">

@@ -247,9 +247,14 @@ class Balance extends \Core\Model
         $stmt_expenses->bindValue(':second_date', $secondDate, PDO::PARAM_STR);
         $stmt_expenses->execute();
 
-        $result_sum_of_expenses = $stmt_expenses -> fetchAll();
+        $result_sum_of_expenses = $stmt_expenses -> fetchAll(PDO::FETCH_COLUMN, 0);
+        //$result_sum_of_expenses = $stmt_expenses -> fetchAll();
+
+        //var_dump($result_sum_of_expenses);
 
             foreach($result_sum_of_expenses as $month_expenses) {
+                //$sql_expenses_details = 'SELECT expenses.date_of_expense as date, expenses.expense_comment as comment, expenses.amount as amount FROM expenses INNER JOIN expenses_category_assigned_to_users as category_expenses WHERE expenses.expense_category_assigned_to_user_id = category_expenses.id AND expenses.user_id= :id_user AND expenses.date_of_expense >= :first_date AND expenses.date_of_expense <= :second_date AND category_expenses.name = :category_name ORDER BY date';
+
                 $sql_expenses_details = 'SELECT expenses.date_of_expense as date, expenses.expense_comment as comment, expenses.amount as amount FROM expenses INNER JOIN expenses_category_assigned_to_users as category_expenses WHERE expenses.expense_category_assigned_to_user_id = category_expenses.id AND expenses.user_id= :id_user AND expenses.date_of_expense >= :first_date AND expenses.date_of_expense <= :second_date AND category_expenses.name = :category_name ORDER BY date';
 
                 $db_expenses_details = static::getDB();
@@ -258,7 +263,7 @@ class Balance extends \Core\Model
                 $stmt_expenses_details -> bindValue(':id_user', $logged_user_id, PDO::PARAM_INT);
                 $stmt_expenses_details -> bindValue(':first_date', $firstDate, PDO::PARAM_STR);
                 $stmt_expenses_details -> bindValue(':second_date', $secondDate, PDO::PARAM_STR);  
-                $stmt_expenses_details -> bindValue(':category_name', $month_expenses[0], PDO::PARAM_INT);   
+                $stmt_expenses_details -> bindValue(':category_name', $result_sum_of_expenses[0], PDO::PARAM_INT);   
                 $stmt_expenses_details -> execute();
 
                 $result_expenses_details = $stmt_expenses_details -> fetchAll();
@@ -270,6 +275,29 @@ class Balance extends \Core\Model
                 return $result_expenses_details;
             }
     }
+/*
+
+    array(4) { 
+        [0]=> string(8) "Rozrywka" 
+        [1]=> string(16) "Opieka zdrowotna" 
+        [2]=> string(8) "Jedzenie" 
+        [3]=> string(9) "Darowizna" }
+
+
+        array(5) { 
+            [0]=> array(6) { 
+                ["date"]=> string(10) "2021-08-01" [0]=> string(10) "2021-08-01" ["comment"]=> string(5) "Sushi" [1]=> string(5) "Sushi" ["amount"]=> string(6) "120.00" [2]=> string(6) "120.00" } 
+            [1]=> array(6) { 
+                ["date"]=> string(10) "2021-08-01" [0]=> string(10) "2021-08-01" ["comment"]=> string(16) "Taca w kościele" [1]=> string(16) "Taca w kościele" ["amount"]=> string(5) "10.00" [2]=> string(5) "10.00" } 
+            [2]=> array(6) { 
+                ["date"]=> string(10) "2021-08-01" [0]=> string(10) "2021-08-01" ["comment"]=> string(6) "Banany" [1]=> string(6) "Banany" ["amount"]=> string(5) "22.00" [2]=> string(5) "22.00" } 
+            [3]=> array(6) { 
+                ["date"]=> string(10) "2021-08-01" [0]=> string(10) "2021-08-01" ["comment"]=> string(7) "Melanż" [1]=> string(7) "Melanż" ["amount"]=> string(7) "1000.00" [2]=> string(7) "1000.00" } 
+            [4]=> array(6) { 
+                ["date"]=> string(10) "2021-08-04" [0]=> string(10) "2021-08-04" ["comment"]=> string(4) "Leki" [1]=> string(4) "Leki" ["amount"]=> string(6) "121.00" [2]=> string(6) "121.00" } }
+
+
+
 
 
 

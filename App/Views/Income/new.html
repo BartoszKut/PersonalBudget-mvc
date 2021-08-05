@@ -102,7 +102,7 @@
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary cancelChanges" data-dismiss="modal">Anuluj</button>
+                        <button type="button" class="btn btn-secondary cancelChanges" id="cancel" data-dismiss="modal">Anuluj</button>
                         <button type="submit" id="insert" class="btn btn-primary acceptChanges">Zapisz zmiany</button>
                     </div>
                 </form>
@@ -121,6 +121,9 @@
     
     // Get the button that opens the modal
     var btn = document.getElementById("edit-button");
+
+    // Get the button that cancel the modal
+    var can = document.getElementById("cancel");
     
     // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
@@ -134,6 +137,11 @@
     span.onclick = function() {
       modal.style.display = "none";
     }
+
+    // When the user clicks on <span> (x), close the modal
+    can.onclick = function() {
+      modal.style.display = "none";
+    }
     
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function(event) {
@@ -141,6 +149,8 @@
         modal.style.display = "none";
       }
     }
+
+    console.log(document.getElementById('incomeCategory').value) 
 
     $(document).ready(function(){
         $('#insert_form').on("submit", function(event){
@@ -152,7 +162,7 @@
             else 
             {
                 $.ajax({
-                    url: "IncomeSettings/modalUpdateIncomes",
+                    url: "/IncomeSettings/modalUpdateIncomes",
                     method: "POST",
                     data: $('#insert_form').serialize(),
                     beforeSend:function(){  
@@ -170,4 +180,3 @@
 </script>
 
 {% endblock %}
-

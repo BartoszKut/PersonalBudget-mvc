@@ -51,7 +51,7 @@
                             {% for expense in expenses %}
                             <div class="card-header">{{ expense.category }}: {{ expense.amount }} zł</div>                        
 
-                        {% for expenses in expenses_details %}
+                            {% for expenses in expenses_details %}
                             <ul class="list-group list-group-flush"><li class="list-group-item"><i class="fas fa-long-arrow-alt-right"></i>{{ expenses.amount }} - {{ expenses.date }} - {{ expenses.comment}} <i class="fas fa-edit"></i><i class="fas fa-trash-alt ml-1"></i> </li></ul>
                         {% endfor %}
                         {% endfor %}

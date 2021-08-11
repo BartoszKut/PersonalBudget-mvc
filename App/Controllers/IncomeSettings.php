@@ -28,13 +28,13 @@ class IncomeSettings extends Authenticated
 
 
 
-    public function modalUpdateIncomes()
+    /*public function modalUpdateIncomes()
     {   
         $incomesSettings = new IncomesSettings($_POST);
 
         if($incomesSettings -> updateModalIncomesData()) {
             echo "<div class='alert alert-success'><strong>Success: </strong>New category has been added</div>";
         }            
-    }
+    }*/
 
 }

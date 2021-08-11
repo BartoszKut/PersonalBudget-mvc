@@ -63,7 +63,7 @@ class IncomesSettings extends Income
 
 
 
-    public function updateModalIncomesData()
+    /*public function updateModalIncomesData()
     {   
 
         echo "Dociera do tej funkcji";
@@ -92,7 +92,7 @@ class IncomesSettings extends Income
             }
         }
         return true;
-    }  
+    }  */
 
 }
 

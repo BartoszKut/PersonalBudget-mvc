@@ -126,4 +126,51 @@ class Expense extends Transaction
 
         return $result_select_payment_methods;
     }
+
+
+
+
+    public static function getExpenseSummary($date) {
+
+        $logged_user_id = $_SESSION['user_id'];
+        
+        $sql = 'SELECT exp.id, exp.name, exp.month_limit, COALESCE(SUM(expenses.amount),0) as summary
+                FROM expenses_category_assigned_to_users as exp
+                LEFT JOIN expenses
+                ON exp.id = expenses.expense_category_assigned_to_user_id
+                AND expenses.date_of_expense LIKE :date 
+                WHERE exp.user_id = :userID
+                GROUP BY exp.id';
+
+        $db = static::getDB();
+        $stmt = $db -> prepare($sql);
+        
+        $stmt -> bindValue(':userID', $logged_user_id, PDO::PARAM_INT);
+        $stmt -> bindValue(':date', "$date%", PDO::PARAM_STR);
+
+        $stmt -> execute();
+
+        return ($stmt -> fetchAll());
+    }
+
+
+
+    /*public static function getExpenseLimit()
+    {
+        $logged_user_id = $_SESSION['user_id'];
+
+        $expenseCat = $this -> expenseCat;
+
+        $sql_get_limit = 'SELECT month_limit FROM expenses_category_assigned_to_users WHERE user_id = :logged_user_id AND name = :expense_category';
+
+        $db_get_limit = static::getDB();
+        $stmt_get_limit = $db_get_limit -> prepare($sql_get_limit);
+
+        $stmt_get_limit -> bindValue(':expense_category', $expenseCat, PDO::PARAM_STR);
+        $stmt_get_limit -> bindValue(':logged_user_id', $logged_user_id, PDO::PARAM_INT);
+
+        $stmt_get_limit -> execute();
+
+        return $stmt_get_limit;
+    }*/
 }

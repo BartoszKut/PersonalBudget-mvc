@@ -29,7 +29,7 @@ class ExpenseSettings extends Authenticated
 
 
 
-    public function modalUpdateExpenses()
+    /*public function modalUpdateExpenses()
     {   
         echo "dziala do kontrolera";
         $expensesSettings = new ExpensesSettings($_POST);
@@ -37,6 +37,6 @@ class ExpenseSettings extends Authenticated
         if($expensesSettings -> updateModalExpensesData()) {
             echo "<div class='alert alert-success'><strong>Success: </strong>New category has been added</div>";
         }            
-    }
+    }*/
 
 }

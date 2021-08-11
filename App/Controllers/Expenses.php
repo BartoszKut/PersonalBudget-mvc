@@ -35,4 +35,14 @@ class Expenses extends Authenticated
         }
     }
 
+
+
+    public function getExpenseSummaryAction() {
+        $date = $this -> route_params['date'];
+        $expenseSummary = Expense::getExpenseSummary($date);
+
+        header('Content-Type: application/json');
+        echo json_encode($expenseSummary);
+    }
+
 }

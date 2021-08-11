@@ -46,7 +46,7 @@
                 <div class="form-group row">
                     <label for="date" class="col-5 col-form-label"><h5>Data</h5></label>
                     <div class="col-7" >
-                        <input type="date" name="date" id="theDate" required></label>
+                        <input type="date" id="date" name="date" id="theDate" required></label>
                     </div>
                 </div>
 
@@ -71,7 +71,6 @@
                                 <option> {{ expenseCategory }} </option>
                             {% endfor %}  
                         </select>
-                        <button id="edit-button" data-toggle="modal">Edycja</button>
                     </div>
                 </div>
 
@@ -95,106 +94,19 @@
 
 </main>
 
-<!-- Modal change category value -->
-<div class="modal" id="myModal">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title">Edycja wydatku</h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span class="close" aria-hidden="true">&times;</span>
-                </button>
-            </div>
-
-            <div class="modal-body">
-                <form id="insert">        
-                    <div>
-                        <label class="title" for="expenseCategory"><p>Kategoria wydatku:</p></label>
-                        <textarea name="expenseCategory" id="expenseCategory" rows="1">{{ expensesCategories[0] }}</textarea>                         
-                    </div>
-
-                    <div>
-                        <label for="expenseLimit"><p>Podaj wartość limitu</p></label>
-                        <input type="number" name="expenseLimit" step="0.01" min="0" required>
-                    </div>
-
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary cancelChanges" id="cancel" data-dismiss="modal">Anuluj</button>
-                        <button id="insertButton" name="insertButton" class="btn btn-primary acceptChanges">Zapisz zmiany</button>
-                    </div>
-                </form>   
-            </div>
-        </div>
-
-        
-    </div>
-</div>
-
 {% endblock %}
 
 
 
 {% block scripts %}
 
-<script type="text/javascript">
-
-    // Get the modal
-    var modal = document.getElementById("myModal");
-    
-    // Get the button that opens the modal
-    var btn = document.getElementById("edit-button");
-
-    // Get the button that cancel the modal
-    var can = document.getElementById("cancel");
-
-    // Get the button that cancel the modal
-    var insertButton = document.getElementById("insertButton");
-    
-    // Get the <span> element that closes the modal
-    var span = document.getElementsByClassName("close")[0];
-    
-    // When the user clicks on the button, open the modal
-    btn.onclick = function() {
-      modal.style.display = "block";
-    }
-    
-    // When the user clicks on <span> (x), close the modal
-    span.onclick = function() {
-      modal.style.display = "none";
-    }
-
-    // When the user clicks on Anuluj, close the modal
-    can.onclick = function() {
-      modal.style.display = "none";
-    }
-    
-    // When the user clicks anywhere outside of the modal, close it
-    window.onclick = function(event) {
-        if (event.target == modal) {
-        modal.style.display = "none";
-      }
-    }
-
-    document.querySelector("#insert").addEventListener("submit", e => {
-        e.preventDefault();
-        let form = document.querySelector("#insert");
-        const data = new URLSearchParams();
-        for(const p of new FormData(form)){
-            data.append(p[0], p[1]);
-        }
-        fetch("/ExpenseSettings/modalUpdateExpenses", {
-            method: 'POST',
-            body: data
-        }).then(response => response.text()).then(response => {
-            document.querySelector('.msg').innerHTML = response;
-        }).catch(error => console.log(error));
-    });
-
-    insertButton.onclick = function() {
-      modal.style.display = "none";
-    }
-
-
-</script>
+    <script>
+        let isSnackbar = "{{ isSnackbar }}";
+        let snackbarText = "{{ snackbarText }}";
+        let snackbarType = "{{ snackbarType }}";
+    </script>
+    <script src="/js/expense.js"></script>
 
 {% endblock %}
+
+

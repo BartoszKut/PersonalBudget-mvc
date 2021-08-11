@@ -116,7 +116,7 @@ class ExpensesSettings extends Expense
 
 
 
-    public function updateModalExpensesData()
+    /*public function updateModalExpensesData()
     {   
         echo "Dociera do tej funkcji";
 
@@ -161,16 +161,6 @@ class ExpensesSettings extends Expense
                 $stmt_new_incomes_cat -> execute();
             }
         }
-
-
-
-
-
-
-
-
-
-
         else if($expenseCategory != "" && $categoryInDatabase == false) {
             Transaction::newCategoryValidation($expenseCategory);  
             Transaction::amountValidation($expenseLimit);        
@@ -189,7 +179,7 @@ class ExpensesSettings extends Expense
             }
         }
         return true;
-    }  
+    }  */
 
 }
     

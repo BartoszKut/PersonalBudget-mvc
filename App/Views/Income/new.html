@@ -33,6 +33,7 @@
             <div class="col title">
                 <h1>Nowy przychód </h1>
             </div>
+            <div id="AJAX"></div>
 
             <form action="/incomes/create" method="post">
 
@@ -57,7 +58,7 @@
                                 <option> {{ incomeCategory }} </option>
                             {% endfor %}  
                         </select>
-                        <button id="edit-button" data-toggle="modal">Edycja</button>
+                        <!--<button id="edit-button" data-toggle="modal">Edycja</button>-->
                     </div>
                 </div>
 
@@ -84,6 +85,7 @@
 
 
 <!-- Modal change category value -->
+<!--
 <div class="modal" id="myModal">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -105,18 +107,18 @@
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary cancelChanges" id="cancel" data-dismiss="modal">Anuluj</button>
                         <button id="insertButton" name="insertButton" v class="btn btn-primary acceptChanges">Zapisz zmiany</button>
-                        <!--Wywołanie funkcji -->
                     </div>
                 </form>
             </div>
         </div>
     </div>
 </div>
-
+-->
 {% endblock %}
 
 {% block scripts %}
-<script type="text/javascript">
+
+<!--<script type="text/javascript">
 
     // Get the modal
     var modal = document.getElementById("myModal");
@@ -175,6 +177,6 @@
     }
 
 
-</script>
+</script>-->
 
 {% endblock %}

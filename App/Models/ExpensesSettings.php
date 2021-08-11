@@ -113,5 +113,84 @@ class ExpensesSettings extends Expense
         }
         return true;
     }     
+
+
+
+    public function updateModalExpensesData()
+    {   
+        echo "Dociera do tej funkcji";
+
+        $all_ok = true;
+
+        $expenseCategory = $_POST['expenseCategory'];
+        $expenseLimit = $_POST['expenseLimit'];
+        $user_id = $_SESSION['user_id'];
+
+        $arguments = Expense::getExpensesCategories();
+        $categoryInDatabase = in_array($expenseCategory, $arguments); 
+        
+        if($expenseLimit == "") {
+            Transaction::newCategoryValidation($expenseCategory);  
+
+            if($all_ok == true) {
+                $sql_new_incomes_cat = 'INSERT INTO expenses_category_assigned_to_users (id, user_id, name, month_limit) VALUES (NULL, :user_id, :expenseCategory, :expenseLimit)';
+
+                $db_new_incomes_cat = static::getDB();
+                $stmt_new_incomes_cat = $db_new_incomes_cat -> prepare($sql_new_incomes_cat);
     
+                $stmt_new_incomes_cat -> bindValue(':user_id', $user_id, PDO::PARAM_INT);
+                $stmt_new_incomes_cat -> bindValue(':expenseCategory', $expenseCategory, PDO::PARAM_STR);
+                $stmt_new_incomes_cat -> bindValue(':expenseLimit', $expenseLimit, PDO::PARAM_INT);
+    
+                $stmt_new_incomes_cat -> execute();
+            }
+        } 
+        else if($categoryInDatabase == true && $expenseLimit != "") {
+            Transaction::amountValidation($expenseLimit); 
+            
+            if($all_ok == true) {
+                $sql_new_incomes_cat ='UPDATE expenses_category_assigned_to_users SET month_limit = :month_limit WHERE user_id = :user_id AND name = :expenseLimitCategory';
+                
+                $db_new_incomes_cat = static::getDB();
+                $stmt_new_incomes_cat = $db_new_incomes_cat -> prepare($sql_new_incomes_cat);
+    
+                $stmt_new_incomes_cat -> bindValue(':user_id', $user_id, PDO::PARAM_INT);
+                $stmt_new_incomes_cat -> bindValue(':expenseLimitCategory', $expenseCategory, PDO::PARAM_STR);
+                $stmt_new_incomes_cat -> bindValue(':month_limit', $expenseLimit, PDO::PARAM_INT);
+    
+                $stmt_new_incomes_cat -> execute();
+            }
+        }
+
+
+
+
+
+
+
+
+
+
+        else if($expenseCategory != "" && $categoryInDatabase == false) {
+            Transaction::newCategoryValidation($expenseCategory);  
+            Transaction::amountValidation($expenseLimit);        
+
+            if($all_ok == true) {
+                $sql_new_incomes_cat = 'INSERT INTO expenses_category_assigned_to_users (id, user_id, name, month_limit) VALUES (NULL, :user_id, :expenseCategory, :expenseLimit)';
+
+                $db_new_incomes_cat = static::getDB();
+                $stmt_new_incomes_cat = $db_new_incomes_cat -> prepare($sql_new_incomes_cat);
+    
+                $stmt_new_incomes_cat -> bindValue(':user_id', $user_id, PDO::PARAM_INT);
+                $stmt_new_incomes_cat -> bindValue(':expenseCategory', $expenseCategory, PDO::PARAM_STR);
+                $stmt_new_incomes_cat -> bindValue(':expenseLimit', $expenseLimit, PDO::PARAM_INT);
+    
+                $stmt_new_incomes_cat -> execute();
+            }
+        }
+        return true;
+    }  
+
 }
+    
+

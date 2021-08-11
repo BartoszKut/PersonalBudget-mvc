@@ -88,6 +88,7 @@
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
+                <div clas="msg mb-4"></div>
                 <h4 class="modal-title">Edycja przychodu</h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span class="close" aria-hidden="true">&times;</span>
@@ -95,7 +96,7 @@
             </div>
 
             <div class="modal-body">
-                <div>
+                <form id="insert">
                     <div>
                         <label class="title" for="incomeCategory"><p>Kategoria przychodu:</p></label>
                         <textarea name="incomeCategory" id="incomeCategory" rows="1" required></textarea>
@@ -103,10 +104,10 @@
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary cancelChanges" id="cancel" data-dismiss="modal">Anuluj</button>
-                        <button id="insert" onclick="sendData()" name="insert" v class="btn btn-primary acceptChanges">Zapisz zmiany</button>
+                        <button id="insertButton" name="insertButton" v class="btn btn-primary acceptChanges">Zapisz zmiany</button>
                         <!--Wywołanie funkcji -->
                     </div>
-                </div>
+                </form>
             </div>
         </div>
     </div>
@@ -125,6 +126,9 @@
 
     // Get the button that cancel the modal
     var can = document.getElementById("cancel");
+
+    // Get the button that cancel the modal
+    var insertButton = document.getElementById("insertButton");
     
     // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
@@ -151,61 +155,26 @@
       }
     }
 
+    document.querySelector("#insert").addEventListener("submit", e => {
+        e.preventDefault();
+        let form = document.querySelector("#insert");
+        const data = new URLSearchParams();
+        for(const p of new FormData(form)){
+            data.append(p[0], p[1]);
+        }
+        fetch("/IncomeSettings/modalUpdateIncomes", {
+            method: 'POST',
+            body: data
+        }).then(response => response.text()).then(response => {
+            document.querySelector('.msg').innerHTML = response;
+        }).catch(error => console.log(error));
+    });
 
-    const postBtn = document.getElementById('insert');
-
-
-    const sendHttpRequest = (method, url, data) => {
-        return fetch(url, {
-            method: method,
-            body: JSON.stringify(data),
-            headers: data ? {'Content-Type': 'application.json' } : {}
-        }).then(response => {
-            return response.json();
-        });
-    };
-
-
-    const sendData = () => {
-        sendHttpRequest('POST', '/IncomeSettings/modalUpdateIncomes', {
-            newCategory: 'Hababa'
-        }).then(responseData => {
-            console.log(responseData);
-        });
-    };
+    insertButton.onclick = function() {
+      modal.style.display = "none";
+    }
 
 
-
-
-
-
-
-
-    /*$(document).ready(function(){
-        $('#insert_form').on("#submit", function(event){
-            event.preventDefault();
-            if($('#incomeCategory').val() == '') 
-            {
-                alert("Wprowadź nową kategorię!");
-            } 
-            else 
-            {
-                $.ajax({
-                    url: "/IncomeSettings/modalUpdateIncomes",
-                    method: "POST",
-                    data: $('#insert_form').serialize(),
-                    beforeSend:function(){  
-                        $('#insert').val("Inserting");  
-                        },  
-                    success: function(data) {
-                        $('#insert_form')[0].reset();
-                        $('#myModal').modal('hide');
-                        $('#incomecat').html(data);
-                    }
-                });
-            }
-        });
-    });*/
 </script>
 
 {% endblock %}

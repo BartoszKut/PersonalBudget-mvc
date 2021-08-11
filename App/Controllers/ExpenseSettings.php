@@ -27,4 +27,16 @@ class ExpenseSettings extends Authenticated
         }            
     }
 
+
+
+    public function modalUpdateExpenses()
+    {   
+        echo "dziala do kontrolera";
+        $expensesSettings = new ExpensesSettings($_POST);
+
+        if($expensesSettings -> updateModalExpensesData()) {
+            echo "<div class='alert alert-success'><strong>Success: </strong>New category has been added</div>";
+        }            
+    }
+
 }

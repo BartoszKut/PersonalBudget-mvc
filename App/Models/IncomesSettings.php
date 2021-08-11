@@ -67,25 +67,26 @@ class IncomesSettings extends Income
     {   
 
         echo "Dociera do tej funkcji";
+
         $all_ok = true;
-        $newIncomeCategory = $this -> incomeCategory;
+
+        $incomeCategory = $_POST['incomeCategory'];
         $user_id = $_SESSION['user_id'];
 
         $arguments = Income::getIncomesCategories();
-
-        $categoryInDatabase = in_array($this -> newIncomeCategory, $arguments);
+        $categoryInDatabase = in_array($incomeCategory, $arguments);        
         
-        if($newIncomeCategory != "" && $categoryInDatabase == false) {
-            Transaction::newCategoryValidation($this -> newIncomeCategory);          
+        if($incomeCategory != "" && $categoryInDatabase == false) {
+            Transaction::newCategoryValidation($incomeCategory);          
 
             if($all_ok == true) {
-                $sql_new_incomes_cat = 'INSERT INTO incomes_category_assigned_to_users (id, user_id, name) VALUES (NULL, :user_id, :newIncomeCategory)';
+                $sql_new_incomes_cat = 'INSERT INTO incomes_category_assigned_to_users (id, user_id, name) VALUES (NULL, :user_id, :incomeCategory)';
 
                 $db_new_incomes_cat = static::getDB();
                 $stmt_new_incomes_cat = $db_new_incomes_cat -> prepare($sql_new_incomes_cat);
     
                 $stmt_new_incomes_cat -> bindValue(':user_id', $user_id, PDO::PARAM_INT);
-                $stmt_new_incomes_cat -> bindValue(':newIncomeCategory', $this -> newIncomeCategory, PDO::PARAM_STR);
+                $stmt_new_incomes_cat -> bindValue(':incomeCategory', $incomeCategory, PDO::PARAM_STR);
     
                 $stmt_new_incomes_cat -> execute();
             }

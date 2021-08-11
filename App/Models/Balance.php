@@ -251,6 +251,8 @@ class Balance extends \Core\Model
         //$result_sum_of_expenses = $stmt_expenses -> fetchAll();
 
         //var_dump($result_sum_of_expenses);
+        
+        echo 'PHP version: ' . phpversion();
 
             foreach($result_sum_of_expenses as $month_expenses) {
                 $sql_expenses_details = 'SELECT category_expenses.name as category, expenses.date_of_expense as date, expenses.expense_comment as comment, expenses.amount as amount FROM expenses INNER JOIN expenses_category_assigned_to_users as category_expenses WHERE expenses.expense_category_assigned_to_user_id = category_expenses.id AND expenses.user_id= :id_user AND expenses.date_of_expense >= :first_date AND expenses.date_of_expense <= :second_date AND category_expenses.name = :category_name ORDER BY date';

@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 
-{% block title %}Add income{% endblock %}
+{% block title %}Add expense{% endblock %}
 
 {% block body %}
 
-{% if incomes.errors is not empty %}
+{% if expenses.errors is not empty %}
     <p>Errors:</p>
         <ul>
-            {% for error in incomes.errors %}
+            {% for error in expenses.errors %}
                 <li>{{ error }}</li>
             {% endfor %}
         </ul>
@@ -59,8 +59,7 @@
                                 <option> {{ paymentMethod }} </option>
                             {% endfor %}  
                             
-                        </select>
-                        <button id="edit-button" data-toggle="modal">Edycja</button>
+                        </select>                       
                     </div>
                 </div>
 
@@ -72,6 +71,7 @@
                                 <option> {{ expenseCategory }} </option>
                             {% endfor %}  
                         </select>
+                        <button id="edit-button" data-toggle="modal">Edycja</button>
                     </div>
                 </div>
 
@@ -107,25 +107,20 @@
             </div>
 
             <div class="modal-body">
-                <form method="post" id="insert_form">        
+                <form id="insert">        
                     <div>
                         <label class="title" for="expenseCategory"><p>Kategoria wydatku:</p></label>
-                        <textarea name="expenseCategory" id="expenseCategory" rows="1"></textarea>
+                        <textarea name="expenseCategory" id="expenseCategory" rows="1">{{ expensesCategories[0] }}</textarea>                         
                     </div>
+
                     <div>
-                        <input type="checkbox" id="scales" name="scales">
-                        <label for="scales">Ustaw limit dla kategorii</label>
-                    </div>
-                    <div>
-                        <label for="incomeLimit"><p>Podaj wartość limitu</p></label>
-                        <div>
-                            <input type="number" name="incomeLimit" step="0.01" min="0" required>
-                        </div>
+                        <label for="expenseLimit"><p>Podaj wartość limitu</p></label>
+                        <input type="number" name="expenseLimit" step="0.01" min="0" required>
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary cancelChanges" data-dismiss="modal">Anuluj</button>
-                        <button type="submit" class="btn btn-primary acceptChanges">Zapisz zmiany</button>
+                        <button type="button" class="btn btn-secondary cancelChanges" id="cancel" data-dismiss="modal">Anuluj</button>
+                        <button id="insertButton" name="insertButton" class="btn btn-primary acceptChanges">Zapisz zmiany</button>
                     </div>
                 </form>   
             </div>
@@ -141,13 +136,19 @@
 
 {% block scripts %}
 
-<script>
+<script type="text/javascript">
 
     // Get the modal
     var modal = document.getElementById("myModal");
     
     // Get the button that opens the modal
     var btn = document.getElementById("edit-button");
+
+    // Get the button that cancel the modal
+    var can = document.getElementById("cancel");
+
+    // Get the button that cancel the modal
+    var insertButton = document.getElementById("insertButton");
     
     // Get the <span> element that closes the modal
     var span = document.getElementsByClassName("close")[0];
@@ -161,6 +162,11 @@
     span.onclick = function() {
       modal.style.display = "none";
     }
+
+    // When the user clicks on Anuluj, close the modal
+    can.onclick = function() {
+      modal.style.display = "none";
+    }
     
     // When the user clicks anywhere outside of the modal, close it
     window.onclick = function(event) {
@@ -168,6 +174,27 @@
         modal.style.display = "none";
       }
     }
+
+    document.querySelector("#insert").addEventListener("submit", e => {
+        e.preventDefault();
+        let form = document.querySelector("#insert");
+        const data = new URLSearchParams();
+        for(const p of new FormData(form)){
+            data.append(p[0], p[1]);
+        }
+        fetch("/ExpenseSettings/modalUpdateExpenses", {
+            method: 'POST',
+            body: data
+        }).then(response => response.text()).then(response => {
+            document.querySelector('.msg').innerHTML = response;
+        }).catch(error => console.log(error));
+    });
+
+    insertButton.onclick = function() {
+      modal.style.display = "none";
+    }
+
+
 </script>
 
 {% endblock %}

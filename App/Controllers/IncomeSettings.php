@@ -30,19 +30,11 @@ class IncomeSettings extends Authenticated
 
     public function modalUpdateIncomes()
     {   
-
-        var_dump($_POST);
         $incomesSettings = new IncomesSettings($_POST);
 
-        
-
-        echo 'działa';
-
         if($incomesSettings -> updateModalIncomesData()) {
-            //View::renderTemplate('LoggedIn/mainMenu.html');
-            echo 'działa';
+            echo "<div class='alert alert-success'><strong>Success: </strong>New category has been added</div>";
         }            
     }
-
 
 }

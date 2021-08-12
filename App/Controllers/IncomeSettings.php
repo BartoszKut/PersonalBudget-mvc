@@ -17,7 +17,7 @@ class IncomeSettings extends Authenticated
 
 
 
-    public function updateIncomes()
+    public function updateIncomesAction()
     {   
         $incomesSettings = new IncomesSettings($_POST);
 

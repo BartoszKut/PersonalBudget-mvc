@@ -44,6 +44,7 @@ $router->add('userSettings', ['controller' => 'UserSetting', 'action' => 'new'])
 $router->add('currentMonthBalance', ['controller' => 'Balances', 'action' => 'current']);
 $router->add('previousMonthBalance', ['controller' => 'Balances', 'action' => 'previous']);
 $router->add('selectdates', ['controller' => 'Balances', 'action' => 'selectdates']);
+$router->add('addexpense/{category:.+}', ['controller' => 'Expenses', 'action' => 'getCategoryLimit']);
 
 
 $router->add('{controller}/{action}');

@@ -14,7 +14,7 @@ class UserSetting extends Authenticated
 
 
     
-    public function updateUser()
+    public function updateUserAction()
     {   
         $userSettings = new UserSettings($_POST);
 

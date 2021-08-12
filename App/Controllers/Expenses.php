@@ -37,6 +37,17 @@ class Expenses extends Authenticated
 
 
 
+    public function getCategoryLimitAction() {
+        $expenseCat = $this -> route_params['category'];
+
+        $categoryLimit = Expense::getExpenseLimit($expenseCat);
+
+        header('Content-Type: application/json');
+        echo json_encode($expenseSummary);
+    }
+
+
+
     public function getExpenseSummaryAction() {
         $date = $this -> route_params['date'];
         $expenseSummary = Expense::getExpenseSummary($date);

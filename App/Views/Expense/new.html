@@ -36,6 +36,10 @@
 
 
 
+            <p id="message"></p>
+
+
+
 
 
             <div class="text-center mx-auto w-50" id="limitBox">
@@ -133,11 +137,65 @@
 {% block scripts %}
 
     <script>
-        let isSnackbar = "{{ isSnackbar }}";
-        let snackbarText = "{{ snackbarText }}";
-        let snackbarType = "{{ snackbarType }}";
+
+        document.getElementById('amount').addEventListener('input', () => {
+            getCategoryLimit();
+            getSummaryExpense();
+            difference();
+        });
+
+        document.getElementById('expensecat').addEventListener('change', () => {
+            getCategoryLimit();
+            getSummaryExpense();
+            difference();
+        });
+
+
+        function getCategoryLimit() {
+            var file = "/expenses/getCategoryLimit";
+            var value = document.getElementById("expensecat").value;
+            var data = { category: value };
+
+            fetch(file, {
+                method: 'POST',
+                headers : { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+                }).then(res => res.text()).then(function(resp) {
+                document.getElementById("limitValue").innerHTML = resp;
+                }).catch(err => console.error(err));
+        }
+
+
+        function getSummaryExpense() {
+            var file = "/expenses/getSummaryExpense";
+            var value = document.getElementById("expensecat").value;
+            var date = document.getElementById("date").value;
+            var data = { category: value,
+                        date: date};
+
+            fetch(file, {
+                method: 'POST',
+                headers : { 'Content-Type': 'application/json' },
+                body: JSON.stringify(data),
+                }).then(res => res.text()).then(function(resp) {
+                document.getElementById("issuedValue").innerHTML = resp;
+                }).catch(err => console.error(err));
+        }
+        
+
+        function difference() {
+            var limit = document.getElementById("limitValue").textContent;
+            var issued = document.getElementById("issuedValue").textContent;
+            var actualExpenseValue = document.getElementById("amount").value;
+
+            var difference = limit - issued;
+            var afterTransaction = difference - actualExpenseValue;
+
+            document.getElementById("leftToTheLimit").innerHTML = difference;
+            document.getElementById("afterOperation").innerHTML = afterTransaction;
+        }
+
     </script>
-    <script src="/js/expense.js"></script>
 
 {% endblock %}
 

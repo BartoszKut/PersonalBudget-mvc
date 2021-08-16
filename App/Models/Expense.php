@@ -143,7 +143,9 @@ class Expense extends Transaction
 
         $stmt_get_limit -> execute();
 
-        return $stmt_get_limit;
+        $limit = $stmt_get_limit -> fetchAll(PDO::FETCH_COLUMN, 0);
+
+        return $limit[0];
     }
 
 
@@ -170,6 +172,45 @@ class Expense extends Transaction
         $stmt -> execute();
 
         return ($stmt -> fetchAll());
+    }
+
+
+
+    public static function getFirstDayOfMonth($date) {
+        $firstDay = date('Y-m-01', strtotime($date));
+
+        return $firstDay;
+    }
+
+
+
+    public static function getLastDayOfMonth($date) {
+        $lastDay = date('Y-m-t', strtotime($date));
+
+        return $lastDay;
+    }
+
+
+
+    public static function getSumOfExpensesOfChosenCategory($firstDate, $secondDate, $category) 
+    {
+        $logged_user_id = $_SESSION['user_id'];
+
+        $sql_expenses_sum = 'SELECT SUM(amount) FROM expenses INNER JOIN expenses_category_assigned_to_users WHERE expenses_category_assigned_to_users.user_id = :logged_user_id AND expenses_category_assigned_to_users.name = :category AND expenses.date_of_expense >= :firstDate AND expenses.date_of_expense <= :secondDate AND expenses.expense_category_assigned_to_user_id = expenses_category_assigned_to_users.id';
+
+        $db_expenses_sum = static::getDB();
+        $stmt_expenses_sum = $db_expenses_sum -> prepare($sql_expenses_sum);
+
+        $stmt_expenses_sum -> bindValue(':logged_user_id', $logged_user_id, PDO::PARAM_INT);
+        $stmt_expenses_sum -> bindValue(':firstDate', $firstDate, PDO::PARAM_STR);
+        $stmt_expenses_sum -> bindValue(':secondDate', $secondDate, PDO::PARAM_STR);  
+        $stmt_expenses_sum -> bindValue(':category', $category, PDO::PARAM_STR);
+
+        $stmt_expenses_sum -> execute();
+
+        $expenses_sum = $stmt_expenses_sum -> fetchAll(PDO::FETCH_COLUMN, 0);
+
+        return $expenses_sum[0];
     }
 
 

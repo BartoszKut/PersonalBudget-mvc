@@ -273,28 +273,6 @@ class Balance extends \Core\Model
                 return $result_expenses_details;
             }
     }
-/*
-
-    array(4) { 
-        [0]=> string(8) "Rozrywka" 
-        [1]=> string(16) "Opieka zdrowotna" 
-        [2]=> string(8) "Jedzenie" 
-        [3]=> string(9) "Darowizna" }
-
-
-        array(5) { 
-            [0]=> array(8) { 
-                ["category"]=> string(8) "Rozrywka" [0]=> string(8) "Rozrywka" ["date"]=> string(10) "2021-08-01" [1]=> string(10) "2021-08-01" ["comment"]=> string(5) "Sushi" [2]=> string(5) "Sushi" ["amount"]=> string(6) "120.00" [3]=> string(6) "120.00" } 
-            [1]=> array(8) { 
-                ["category"]=> string(9) "Darowizna" [0]=> string(9) "Darowizna" ["date"]=> string(10) "2021-08-01" [1]=> string(10) "2021-08-01" ["comment"]=> string(16) "Taca w kościele" [2]=> string(16) "Taca w kościele" ["amount"]=> string(5) "10.00" [3]=> string(5) "10.00" } 
-            [2]=> array(8) { 
-                ["category"]=> string(8) "Jedzenie" [0]=> string(8) "Jedzenie" ["date"]=> string(10) "2021-08-01" [1]=> string(10) "2021-08-01" ["comment"]=> string(6) "Banany" [2]=> string(6) "Banany" ["amount"]=> string(5) "22.00" [3]=> string(5) "22.00" } 
-            [3]=> array(8) { 
-                ["category"]=> string(8) "Rozrywka" [0]=> string(8) "Rozrywka" ["date"]=> string(10) "2021-08-01" [1]=> string(10) "2021-08-01" ["comment"]=> string(7) "Melanż" [2]=> string(7) "Melanż" ["amount"]=> string(7) "1000.00" [3]=> string(7) "1000.00" } 
-            [4]=> array(8) { 
-                ["category"]=> string(16) "Opieka zdrowotna" [0]=> string(16) "Opieka zdrowotna" ["date"]=> string(10) "2021-08-04" [1]=> string(10) "2021-08-04" ["comment"]=> string(4) "Leki" [2]=> string(4) "Leki" ["amount"]=> string(6) "121.00" [3]=> string(6) "121.00" } }
-
-
 
 
 

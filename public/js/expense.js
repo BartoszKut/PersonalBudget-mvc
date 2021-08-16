@@ -2,35 +2,26 @@ document.getElementById('amount').addEventListener('input', getCategoryLimit);
 //document.getElementById('date').addEventListener('input', getSumOfExpenses);
 document.getElementById('expensecat').addEventListener('change', getCategoryLimit);
 
+
 let category = $('#expensecat').val();
 
 console.log(category);
 
-const sendHttpRequest = (method, url, data) => {
-    return fetch(url, {
-      method: method,
-      body: JSON.stringify(data),
-      headers: data ? { 'Content-Type': 'application/json' } : {}
-    }).then(response => {
-      if (response.status >= 400) {
-        // !response.ok
-        return response.json().then(errResData => {
-          const error = new Error('Something went wrong!');
-          error.data = errResData;
-          throw error;
-        });
-      }
-      return response.json();
-    });
-  };
-  
-  let controller = '/addexpense/' + category;
+let controller = '/Expenses/getCategoryLimit';
 
-    function getCategoryLimit() {
-    sendHttpRequest('GET', controller).then(responseData => {
-      console.log(responseData);
-    });
-  };
+function getCategoryLimit() {
+    fetch('/Expenses/getCategoryLimit', {
+        method: 'POST',
+        body: category,
+        headers: category ? { 'Content-Type': 'text'} : {}
+    })
+    .then(responseData => {
+    console.log(responseData);
+});
+};
+
+
+
 
 
 

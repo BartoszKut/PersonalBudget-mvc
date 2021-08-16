@@ -38,22 +38,41 @@ class Expenses extends Authenticated
 
 
     public function getCategoryLimitAction() {
-        $expenseCat = $this -> route_params['category'];
+        
+        $post = file_get_contents('php://input');
+        $data = json_decode($post);
+        $category = $data -> category;
+  
+        $categoryLimit = Expense::getExpenseLimit($category);
 
-        $categoryLimit = Expense::getExpenseLimit($expenseCat);
+        if($categoryLimit == NULL) {
+            echo "-";
+        } else {
+            echo $categoryLimit;
+        }
 
-        header('Content-Type: application/json');
-        echo json_encode($expenseSummary);
+        
     }
 
 
 
-    public function getExpenseSummaryAction() {
-        $date = $this -> route_params['date'];
-        $expenseSummary = Expense::getExpenseSummary($date);
+    public function getSummaryExpenseAction() {
 
-        header('Content-Type: application/json');
-        echo json_encode($expenseSummary);
+        $post = file_get_contents('php://input');
+        $data = json_decode($post);
+        $category = $data -> category;
+        $date = $data -> date;
+
+        $firstDayOfMonth = Expense::getFirstDayOfMonth($date);
+        $lastDayOfMontyh = Expense::getLastDayOfMonth($date);
+
+        $summaryExpenses = Expense::getSumOfExpensesOfChosenCategory($firstDayOfMonth, $lastDayOfMontyh, $category);
+
+        if($summaryExpenses == NULL) {
+            echo "-";
+        } else {
+            echo $summaryExpenses;
+        }
     }
-
+    
 }

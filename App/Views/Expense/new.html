@@ -82,7 +82,7 @@
                 <div class="form-group row">
                     <label for="date" class="col-5 col-form-label"><h5>Data</h5></label>
                     <div class="col-7" >
-                        <input type="date" id="date" name="date" id="theDate" required></label>
+                        <input type="date" id="date" name="date" required></label>
                     </div>
                 </div>
 
@@ -137,17 +137,43 @@
 {% block scripts %}
 
     <script>
+        var date = new Date();
+        var year = date.getFullYear();
+        var month = date.getMonth()+1;
+        if(month < 10){
+            month = '0' + month;
+        }
+        var today = String(date.getDate()).padStart(2, '0');
+        var datePattern = year + '-' + month + '-' + today;
+        document.getElementById('date').value = datePattern;  
+
+        getCategoryLimit();
+        getSummaryExpense();
+        difference();
+        afterTransaction();
+
+
 
         document.getElementById('amount').addEventListener('input', () => {
             getCategoryLimit();
             getSummaryExpense();
             difference();
+            afterTransaction();
         });
 
         document.getElementById('expensecat').addEventListener('change', () => {
             getCategoryLimit();
             getSummaryExpense();
             difference();
+            afterTransaction();
+        });
+
+
+        document.getElementById('date').addEventListener('change', () => {
+            getCategoryLimit();
+            getSummaryExpense();
+            difference();
+            afterTransaction();
         });
 
 
@@ -181,9 +207,17 @@
                 document.getElementById("issuedValue").innerHTML = resp;
                 }).catch(err => console.error(err));
         }
-        
 
-        function difference() {
+
+        function difference(){
+            var limit = document.getElementById("limitValue").textContent;
+            var issued = document.getElementById("issuedValue").textContent;
+            var difference = limit - issued;
+            document.getElementById("leftToTheLimit").innerHTML = difference;
+        }
+
+
+        function afterTransaction() {
             var limit = document.getElementById("limitValue").textContent;
             var issued = document.getElementById("issuedValue").textContent;
             var actualExpenseValue = document.getElementById("amount").value;
@@ -191,7 +225,10 @@
             var difference = limit - issued;
             var afterTransaction = difference - actualExpenseValue;
 
-            document.getElementById("leftToTheLimit").innerHTML = difference;
+            if (afterTransaction == 0) {
+                document.getElementById("afterOperation").innerHTML = "-";
+            }
+
             document.getElementById("afterOperation").innerHTML = afterTransaction;
         }
 

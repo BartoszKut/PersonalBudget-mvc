@@ -12,24 +12,6 @@ use \Datetime;
 
 class Balances extends Authenticated
 {
-    /*public function selectedDatesBalanceTemplate($firstDate, $secondDate)
-    {
-        $arguments = [];
-        $arguments['firstDate'] = $firstDate;
-        $arguments['secondDate'] = $secondDate;
-        $arguments['incomes_sum'] = Balance::getSumOfIncomes($firstDate, $secondDate);
-        $arguments['expenses_sum'] = Balance::getSumOfExpenses($firstDate, $secondDate);
-        $arguments['incomes'] = Balance::getIncomes($firstDate, $secondDate);
-        $arguments['incomes_details'] = Balance::getDetailsOfIncomes($firstDay, $lastDay);
-        $arguments['expenses'] = Balance::getExpenses($firstDate, $secondDate);
-        $arguments['expenses_details'] = Balance::getDetailsOfExpenses($firstDay, $lastDay);
-        $arguments['information'] = ($amount);     
-        
-        View::renderTemplate('Balance/SelectedDates.html', $arguments);
-    }*/
-
-
-
     public function currentAction()
     {
         $firstDay = new DateTime('first day of this month');  
@@ -69,7 +51,7 @@ class Balances extends Authenticated
         $arguments['incomes_details'] = Balance::getDetailsOfIncomes($firstDay, $lastDay);
         $arguments['expenses'] = Balance::getExpenses($firstDay, $lastDay);
         $arguments['expenses_details'] = Balance::getDetailsOfExpenses($firstDay, $lastDay);
-        //$arguments['information'] = Balance::saveOrNo();       
+        $arguments['information'] = Balance::getBalanceFromPreviousMonth();   
         
         View::renderTemplate('Balance/PreviousMonth.html', $arguments);
     }
@@ -100,7 +82,7 @@ class Balances extends Authenticated
             $arguments['incomes_details'] = Balance::getDetailsOfIncomes($firstDay, $lastDay);
             $arguments['expenses'] = Balance::getExpenses($firstDay, $lastDay);
             $arguments['expenses_details'] = Balance::getDetailsOfExpenses($firstDay, $lastDay);
-            //$arguments['information'] = saveOrNo($amount);     
+            $arguments['information'] = Balance::getBalanceFromSelectedDates($firstDay, $lastDay);
             
             View::renderTemplate('Balance/SelectedDates.html', $arguments);
         }

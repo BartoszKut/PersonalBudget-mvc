@@ -147,33 +147,33 @@
         var datePattern = year + '-' + month + '-' + today;
         document.getElementById('date').value = datePattern;  
 
-        getCategoryLimit();
+        /*getCategoryLimit();
         getSummaryExpense();
         difference();
-        afterTransaction();
+        afterTransaction();*/
+
+        showValues();
+
+        async function showValues() {
+            await getCategoryLimit();
+            await getSummaryExpense();
+            difference();
+            afterTransaction();
+        }
+
 
 
 
         document.getElementById('amount').addEventListener('input', () => {
-            getCategoryLimit();
-            getSummaryExpense();
-            difference();
-            afterTransaction();
+            showValues()
         });
 
         document.getElementById('expensecat').addEventListener('change', () => {
-            getCategoryLimit();
-            getSummaryExpense();
-            difference();
-            afterTransaction();
+            showValues()
         });
 
-
         document.getElementById('date').addEventListener('change', () => {
-            getCategoryLimit();
-            getSummaryExpense();
-            difference();
-            afterTransaction();
+            showValues()
         });
 
 
@@ -210,8 +210,14 @@
 
 
         function difference(){
+            // var limit = document.getElementById("limitValue").textContent;
             var limit = document.getElementById("limitValue").textContent;
-            var issued = document.getElementById("issuedValue").textContent;
+            var issued = parseInt(document.getElementById("issuedValue").textContent);
+            console.log(typeof issued);
+            console.log(issued)
+            //if(!isNaN(issued)) {
+            //    issued = 0;
+            //}
             var difference = limit - issued;
             document.getElementById("leftToTheLimit").innerHTML = difference;
         }
@@ -231,6 +237,8 @@
 
             document.getElementById("afterOperation").innerHTML = afterTransaction;
         }
+
+
 
     </script>
 

@@ -248,11 +248,6 @@ class Balance extends \Core\Model
         $stmt_expenses->execute();
 
         $result_sum_of_expenses = $stmt_expenses -> fetchAll(PDO::FETCH_COLUMN, 0);
-        //$result_sum_of_expenses = $stmt_expenses -> fetchAll();
-
-        //var_dump($result_sum_of_expenses);
-        
-        echo 'PHP version: ' . phpversion();
 
             foreach($result_sum_of_expenses as $month_expenses) {
                 $sql_expenses_details = 'SELECT category_expenses.name as category, expenses.date_of_expense as date, expenses.expense_comment as comment, expenses.amount as amount FROM expenses INNER JOIN expenses_category_assigned_to_users as category_expenses WHERE expenses.expense_category_assigned_to_user_id = category_expenses.id AND expenses.user_id= :id_user AND expenses.date_of_expense >= :first_date AND expenses.date_of_expense <= :second_date AND category_expenses.name = :category_name ORDER BY date';
@@ -329,7 +324,7 @@ class Balance extends \Core\Model
 
 
 
-    public function getBalanceFromPreviousMonth()
+    public static function getBalanceFromPreviousMonth()
     {
         // first day of previous month 
         $firstDate = new DateTime('first day of previous month');  
@@ -339,14 +334,22 @@ class Balance extends \Core\Model
         $secondDate = new DateTime('last day of previous month');
         $secondDate = $secondDate -> format('Y-m-d');
 
-        $balance = balanceAmount($firstDate, $secondDate);        
+        $balance = static::balanceAmount($firstDate, $secondDate);        
+        $incomes_sum = static::getSumOfIncomes($firstDate, $secondDate);
+        $expenses_sum = static::getSumOfExpenses($firstDate, $secondDate); 
+
+        return $information = static::saveOrNo($balance, $incomes_sum, $expenses_sum);
     }
 
 
 
-    public function getBalanceFromSelectedDates($firstDate, $secondDate)
+    public static function getBalanceFromSelectedDates($firstDate, $secondDate)
     {
-        $balance = balanceAmount($firstDate, $secondDate);        
+        $balance = static::balanceAmount($firstDate, $secondDate);        
+        $incomes_sum = static::getSumOfIncomes($firstDate, $secondDate);
+        $expenses_sum = static::getSumOfExpenses($firstDate, $secondDate); 
+
+        return $information = static::saveOrNo($balance, $incomes_sum, $expenses_sum);
     }
 
 

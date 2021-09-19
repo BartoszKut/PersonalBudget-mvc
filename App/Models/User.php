@@ -24,15 +24,15 @@ class User extends \Core\Model
     /* save the user model */
     public function save()
     {
-        $all_ok = true;
+        
 
-        User::nameValidation($this -> name);
-        User::surnameValidation($this -> surname);
-        User::emailValidation($this -> email);
-        User::passwordValidation($this -> password, $this -> password2);
+        // User::nameValidation($this -> name);
+        // User::surnameValidation($this -> surname);
+        // User::emailValidation($this -> email);
+        // User::passwordValidation($this -> password, $this -> password2);
 
         //if(empty($this -> errors)){
-        if ($all_ok = true) {
+        // if ($all_ok = true) {
             $password_hash = password_hash($this -> password, PASSWORD_DEFAULT);
 
             // Add user to database
@@ -81,9 +81,9 @@ class User extends \Core\Model
 
             $stmt_pay_methods_cat -> execute();
 
-            return true;
-        }
-        return false;
+            // return true;
+        // }
+        // return false;
     }
 
 
@@ -92,75 +92,56 @@ class User extends \Core\Model
 
     public static function nameValidation($name)
     {
-        //$all_ok = true;
-
         if((strlen($name) < 3) || (strlen($name) > 20)){
-            //$this -> errors[] = "Imię musi posiadać od 3 do 20 znaków!";
-            $_SESSION['name_error'] = "Imię musi posiadać od 3 do 20 znaków!";
-            $all_ok = false;
+            return false;
         }
-        if(ctype_alpha($name) == false){
-            //$this -> errors[] = "Imię może składać się tylko z liter! (bez polskich znaków)";
-            $_SESSION['name_error'] = "Imię może składać się tylko z liter! (bez polskich znaków)";
-            $all_ok = false;
+        if(!ctype_alpha($name)) {
+            return false;
         }
+        return true;
     }
 
 
 
     public static function surnameValidation($surname)
     {
-        //$all_ok = true;
-
         if((strlen($surname) < 3) || (strlen($surname) > 20)){ 
-            //$this -> errors[] = "Nazwisko musi posiadać od 3 do 20 znaków!";
-            $_SESSION['surname_error'] = "Nazwisko musi posiadać od 3 do 20 znaków!";
-            $all_ok = false;
+           return false;
         }
         if(ctype_alpha($surname) == false){
-            //$this -> errors[] = "Nazwisko może składać się tylko z liter! (bez polskich znaków)";
-            $_SESSION['surname_error'] = "Nazwisko może składać się tylko z liter! (bez polskich znaków)";
-            $all_ok = false;
+            return false;
         }
+        return true;
     }
 
 
 
     public static function emailValidation($email)
     {
-        //$all_ok = true;
-
         $safe_email = filter_var($email, FILTER_SANITIZE_EMAIL);
         
         if((filter_var($safe_email, FILTER_VALIDATE_EMAIL)==false) || ($safe_email != $email)){
-            //$this -> errors[] = "Podaj poprawny adres email!";
-            $_SESSION['email_error'] = "Podaj poprawny adres email!";
-            $all_ok = false;
+            return false;
         }
 
         if(static::emailExist($email)){
-            //$this -> errors[] = "Istnieje już konto przypisane do tego e-maila!";
-            $_SESSION['email_error'] = "Istnieje już konto przypisane do tego e-maila!";
-            $all_ok = false;
+            return false;
         }
+        return true;
     }
+
 
 
 
     public static function passwordValidation($password, $password2)
     {   
-        //$all_ok = true;
-
         if((strlen($password) < 6) || (strlen($password) > 20)){ 
-            //$this -> errors[] = "Hasło musi posiadać od 6 do 20 znaków!";
-            $_SESSION['password_error'] = "Hasło musi posiadać od 6 do 20 znaków!";
-            $all_ok = false;
+            return false;
         }
         if($password != $password2){ 
-            //$this -> errors[] = "Hasła muszą być identyczne!";
-            $_SESSION['password_error'] = "Hasła muszą być identyczne!";
-            $all_ok = false;
+            return false;
         }
+        return true;
     }
 
 

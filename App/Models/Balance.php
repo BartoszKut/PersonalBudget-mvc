@@ -206,7 +206,11 @@ class Balance extends \Core\Model
         $stmt_incomes_sum -> execute();
         $incomes_sum = $stmt_incomes_sum -> fetchColumn();
 
-        return $incomes_sum;
+        if($incomes_sum == NULL) {
+            return 0;
+        } else {
+            return $incomes_sum;
+        }
     }
 
 
@@ -287,7 +291,11 @@ class Balance extends \Core\Model
         $stmt_expenses_sum -> execute();
         $expenses_sum = $stmt_expenses_sum -> fetchColumn();
 
-        return $expenses_sum;
+        if($expenses_sum == NULL) {
+            return 0;
+        } else {
+            return $expenses_sum;
+        }
     }
 
 

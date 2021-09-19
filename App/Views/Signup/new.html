@@ -4,28 +4,6 @@
 
 {% block footer %}
 
-    <!--<script>
-        $(document).ready(function(){
-            $('#formSignup').validate({
-                rules: {
-                    name: 'required',
-                    email: {
-                        required: true,
-                        email: true,
-                        remote: '/PersonalBudget-mvc/public/account/validate-email'
-                    },
-                    password: {
-                        required: true,
-                        minlength: 6
-                    },
-                    password2: {
-                        equalTo: "#id_password"
-                    }
-                }
-            });
-        });
-    </script>-->
-
 {% endblock %}
 
 {% block body %}
@@ -47,7 +25,9 @@
             <div class="col mainbg">
 
                 <div class="d-inline-block">
-                    <a href="/home/index"><img class="logo" src="img/logo.png" width="90" height="90" alt=""/></a>
+                    <a href="/home/index">                       
+                         <img class="logo" src="/css/logo.png" width="90" height="90" alt=""/>
+                    </a>
                 </div>
 
                 <div class="col title">
@@ -60,15 +40,24 @@
                         <input type="text" class="form-control" name="name" aria-describedby="name" placeholder="Imię" value="{{ user.name }}" required >
                     </div>
 
+                    {% if(name) %}
+                        <div class="alert alert-danger error" role="alert">{{ name }}</div>
+                    {% endif %}
 
                     <div class="form-group d-flex justify-content-center">
                         <input type="text" class="form-control" name="surname" aria-describedby="surname" placeholder="Nazwisko" value="{{ user.surname }}" required >
                     </div>
+                    {% if(surname) %}
+                        <div class="alert alert-danger error" role="alert">{{ surname }}</div>
+                    {% endif %}
 
 
                     <div class="form-group d-flex justify-content-center">
                         <input type="email" class="form-control" name="email" aria-describedby="email" placeholder="Email" value="{{ user.email }}"required >
                     </div>
+                    {% if(email) %}
+                        <div class="alert alert-danger error" role="alert">{{ email }}</div>
+                    {% endif %}
 
 
                     <div class="form-group d-flex justify-content-center">
@@ -78,6 +67,9 @@
                     <div class="form-group d-flex justify-content-center">
                         <input type="password" id="id_password2" class="form-control" name="password2" placeholder="Powtórz hasło" required >
                     </div>
+                    {% if(password) %}
+                        <div class="alert alert-danger error" role="alert">{{ password }}</div>
+                    {% endif %}
 
 
                     <div class="g-recaptcha form-group d-flex justify-content-center mt-4" data-sitekey="6Le0bHUaAAAAAOF8S6DRasrN7CcM24COB_rUQbGU"></div>
@@ -89,7 +81,7 @@
 
                 </form>
 
-                <h6 class="d-flex justify-content-center">Posiadasz konto? <a href="/Login/new" class="logIntoAccount"> Zaloguj się</a></h6>
+                <h6 class="d-flex justify-content-center account">Posiadasz konto? <a href="/Login/new" class="logIntoAccount"> Zaloguj się</a></h6>
 
             </div>
         </div>

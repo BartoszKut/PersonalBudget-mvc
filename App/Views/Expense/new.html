@@ -34,16 +34,10 @@
                 <h1>Nowy wydatek </h1>
             </div>
 
-
-
-            <p id="message"></p>
-
-
-
-
+            <h3 id="message"></h3>
 
             <div class="text-center mx-auto w-50" id="limitBox">
-                <table class="table table-hover limit-table">
+                <table class="table table-hover limit-table" id="table">
                     <thead>
                         <tr>
                             <th scope="col">Limit</th>
@@ -62,12 +56,6 @@
                     </tbody>
                 </table>
             </div>
-
-
-
-
-
-
 
 
             <form action="/expenses/create" method="post">
@@ -137,6 +125,8 @@
 {% block scripts %}
 
     <script>
+
+        // default date setting
         var date = new Date();
         var year = date.getFullYear();
         var month = date.getMonth()+1;
@@ -147,22 +137,7 @@
         var datePattern = year + '-' + month + '-' + today;
         document.getElementById('date').value = datePattern;  
 
-        /*getCategoryLimit();
-        getSummaryExpense();
-        difference();
-        afterTransaction();*/
-
         showValues();
-
-        async function showValues() {
-            await getCategoryLimit();
-            await getSummaryExpense();
-            difference();
-            afterTransaction();
-        }
-
-
-
 
         document.getElementById('amount').addEventListener('input', () => {
             showValues()
@@ -177,48 +152,64 @@
         });
 
 
-        function getCategoryLimit() {
+        async function showValues() {
+            await getCategoryLimit();
+            await getSummaryExpense();
+            difference();
+            afterTransaction();
+            expensesAlert();
+        }
+
+
+        async function getCategoryLimit() {
             var file = "/expenses/getCategoryLimit";
             var value = document.getElementById("expensecat").value;
             var data = { category: value };
 
-            fetch(file, {
+            const res = await fetch(file, {
                 method: 'POST',
                 headers : { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
-                }).then(res => res.text()).then(function(resp) {
-                document.getElementById("limitValue").innerHTML = resp;
-                }).catch(err => console.error(err));
+                })
+                
+            const resp = await res.text(); 
+            
+            document.getElementById("limitValue").innerHTML = resp;
         }
 
 
-        function getSummaryExpense() {
+        async function getSummaryExpense() {
             var file = "/expenses/getSummaryExpense";
             var value = document.getElementById("expensecat").value;
             var date = document.getElementById("date").value;
             var data = { category: value,
                         date: date};
 
-            fetch(file, {
+            const res = await fetch(file, {
                 method: 'POST',
                 headers : { 'Content-Type': 'application/json' },
                 body: JSON.stringify(data),
-                }).then(res => res.text()).then(function(resp) {
-                document.getElementById("issuedValue").innerHTML = resp;
-                }).catch(err => console.error(err));
+                })
+                
+            const resp = await res.text(); 
+
+            document.getElementById("issuedValue").innerHTML = resp;
         }
 
 
         function difference(){
-            // var limit = document.getElementById("limitValue").textContent;
             var limit = document.getElementById("limitValue").textContent;
-            var issued = parseInt(document.getElementById("issuedValue").textContent);
-            console.log(typeof issued);
-            console.log(issued)
-            //if(!isNaN(issued)) {
-            //    issued = 0;
-            //}
-            var difference = limit - issued;
+            var issued = document.getElementById("issuedValue").textContent;
+
+            if(limit == "-") {
+                var difference = "-";
+            } else {
+                if(issued == "-") {
+                issued = 0;
+                issued = parseInt(issued);
+                }
+                var difference = limit - issued;
+            }
             document.getElementById("leftToTheLimit").innerHTML = difference;
         }
 
@@ -228,14 +219,35 @@
             var issued = document.getElementById("issuedValue").textContent;
             var actualExpenseValue = document.getElementById("amount").value;
 
-            var difference = limit - issued;
-            var afterTransaction = difference - actualExpenseValue;
+            if (limit == "-") {
+                var afterTransaction = "-";
+            } else {
+                limit = parseInt(limit);
 
-            if (afterTransaction == 0) {
-                document.getElementById("afterOperation").innerHTML = "-";
+                if (issued == "-") {
+                issued = 0;
+                }
+
+                var difference = limit - issued;
+                var afterTransaction = difference - actualExpenseValue;
             }
-
             document.getElementById("afterOperation").innerHTML = afterTransaction;
+        }
+
+
+        function expensesAlert() {
+            var afterTransaction = document.getElementById('afterOperation').textContent;
+            if (afterTransaction != "-") {
+                if (afterTransaction < 0) {
+                    table.style.backgroundColor = '#FF6666';
+                    var message = "Przekroczono limit!";
+                    document.getElementById("message").innerHTML = message;
+                } else {
+                table.style.backgroundColor = '#e4e4e4';
+                var message = "";
+                document.getElementById("message").innerHTML = message;
+                }
+            }
         }
 
 

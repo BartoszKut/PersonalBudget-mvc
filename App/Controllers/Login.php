@@ -13,7 +13,7 @@ use \App\Flash;
 class Login extends \Core\Controller
 {
      /* error messages */
-    //public $errors = []; //errores in $_SESSION[];
+    public $errors = []; //errores in $_SESSION[];
 
     /* Show the login page */
     public function newAction()
@@ -24,7 +24,7 @@ class Login extends \Core\Controller
             $this -> redirect('/items/index');
 
         } else {
-
+            
             View::renderTemplate('Login/new.html');
         }        
     }
@@ -34,20 +34,22 @@ class Login extends \Core\Controller
     /* Log in user */
     public function createAction()
     {
-        $user = User::authenticate($_POST['email'], $_POST['password']);
-        //var_dump($_SESSION['error_passOrEmail']);
-
-        if ($user) {
-
+        if(isset($_POST['email'])) {
+            $user = User::authenticate($_POST['email'], $_POST['password']);
+        } else {
+            return $this -> redirect('/login');
+        }
+        
+        if($user) {
             Auth::login($user);           
 
             $_SESSION['return_to'] = '/login/success';
-            //$this -> redirect('/PersonalBudget-mvc/public/login/success');
+            
             $this -> redirect(Auth::getReturnToPage());
-
         } else {
+            $errors['login'] = "Niepoprawny login lub hasło!";
 
-            View::renderTemplate('Login/new.html', [
+            View::renderTemplate('Login/new.html', $errors, [
                 'email' => $_POST['email'],
             ]);
         }
@@ -67,17 +69,21 @@ class Login extends \Core\Controller
     {
         Auth::logout();
 
-        $this -> redirect('/login/show-logout-message');
+        $info = [];
+        $info['logout'] = "Wylogowano poprawnie.";
+
+        View::renderTemplate('Home/index.html', $info);
     }
 
 
 
-    // Show logged out flash message
-    public function showLogoutMessageAction()
-    {
-        Flash::addMessage('Wylogowano poprawnie!');
+    // // Show logged out flash message
+    // public function showLogoutMessageAction()
+    // {
+    //     Flash::addMessage('Wylogowano poprawnie!');
+    //     echo "chujek";
 
-        $this -> redirect('/');
-    }
+    //     $this -> redirect('/');
+    // }
 
 }

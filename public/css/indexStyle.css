@@ -150,3 +150,11 @@ a{
 .gh:visited{
 	color: white;
 }
+
+.logout {
+	width: 50%;
+    max-width: 350px;
+	text-align: center;
+	font-size: 18px;
+	height: 60px;
+}

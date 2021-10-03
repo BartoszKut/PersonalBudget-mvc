@@ -3,31 +3,28 @@
 namespace App;
 
 use \App\Models\User;
-
+use \Core\Controller;
 
 /* Authentication */
 class Auth
 {
-
     /* Log in the user */
     public static function login($user)
     {
-        session_regenerate_id(true);
+        //session_regenerate_id(true);
+        session_destroy();
+        session_start();
 
         $_SESSION['user_id'] = $user -> id;
-        $_SESSION['user_name'] = $user -> name;
-        $_SESSION['user_surname'] = $user -> surname;
-        $_SESSION['user_email'] = $user -> email;
-        $_SESSION['user_password'] = $user -> password;
     }
-
 
 
     /* Log out user */
     public static function logout()
     {
         // Unset all of the session variables.
-        $_SESSION = array();
+        //$_SESSION = array();
+        unset($_SESSION['user_id']);
 
         // If it's desired to kill the session, also delete the session cookie.
         // Note: This will destroy the session, and not just the session data!
@@ -43,21 +40,10 @@ class Auth
                 $params["httponly"]
             );
         }
-
         // Finally, destroy the session.
         session_destroy();
+        setcookie("PHPSESSID","",time()-3600,"/");
     }
-
-
-
-    /* Return indicator of whether a user is logged in or not */
-    //getUser method does same things
-    /*
-    public static function isLoggedIn()
-    {
-        return isset($_SESSION['user_id']);
-    }*/
-
 
     
     /* Remember the originally-requested page in the session */
@@ -67,7 +53,6 @@ class Auth
     }
 
 
-
     /* Return to requested page after successfully log in */
     public static function getReturnToPage()
     {
@@ -75,12 +60,24 @@ class Auth
     }
 
 
-
     /* Get the current logged-in user */
     public static function getUser()
     {
         if(isset($_SESSION['user_id'])) {
             return User::findById($_SESSION['user_id']);
+        } else {
+            return null;
+        }
+    }
+
+
+    /* Check that user is logged */
+    public static function isLoggedIn()
+    {
+        if(isset($_SESSION['user_id'])) {
+            return true;
+        } else {
+            return false;
         }
     }
 }

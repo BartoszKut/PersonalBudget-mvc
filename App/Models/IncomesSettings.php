@@ -18,7 +18,6 @@ class IncomesSettings extends Income
     }
 
 
-
     public function updateIncomesData()
     {   
         $all_ok = true;
@@ -60,40 +59,6 @@ class IncomesSettings extends Income
         }
         return true;
     }    
-
-
-
-    /*public function updateModalIncomesData()
-    {   
-
-        echo "Dociera do tej funkcji";
-
-        $all_ok = true;
-
-        $incomeCategory = $_POST['incomeCategory'];
-        $user_id = $_SESSION['user_id'];
-
-        $arguments = Income::getIncomesCategories();
-        $categoryInDatabase = in_array($incomeCategory, $arguments);        
-        
-        if($incomeCategory != "" && $categoryInDatabase == false) {
-            Transaction::newCategoryValidation($incomeCategory);          
-
-            if($all_ok == true) {
-                $sql_new_incomes_cat = 'INSERT INTO incomes_category_assigned_to_users (id, user_id, name) VALUES (NULL, :user_id, :incomeCategory)';
-
-                $db_new_incomes_cat = static::getDB();
-                $stmt_new_incomes_cat = $db_new_incomes_cat -> prepare($sql_new_incomes_cat);
-    
-                $stmt_new_incomes_cat -> bindValue(':user_id', $user_id, PDO::PARAM_INT);
-                $stmt_new_incomes_cat -> bindValue(':incomeCategory', $incomeCategory, PDO::PARAM_STR);
-    
-                $stmt_new_incomes_cat -> execute();
-            }
-        }
-        return true;
-    }  */
-
 }
 
 

@@ -6,15 +6,16 @@ use \Core\View;
 use \App\Models\IncomesSettings;
 use \App\Models\Income;
 
-class IncomeSettings extends Authenticated 
+class IncomeSettings extends \Core\Controller
 {
     public function newAction()
     {     
-        $arguments['incomesCategories'] = Income::getIncomesCategories();
+        if($this->requireLogin()) {
+            $arguments['incomesCategories'] = Income::getIncomesCategories();
 
-        View::renderTemplate('AppSetting/incomesSettings.html', $arguments);          
+            View::renderTemplate('AppSetting/incomesSettings.html', $arguments);       
+        }   
     }
-
 
 
     public function updateIncomesAction()
@@ -25,16 +26,5 @@ class IncomeSettings extends Authenticated
             View::renderTemplate('LoggedIn/mainMenu.html');
         }            
     }
-
-
-
-    /*public function modalUpdateIncomes()
-    {   
-        $incomesSettings = new IncomesSettings($_POST);
-
-        if($incomesSettings -> updateModalIncomesData()) {
-            echo "<div class='alert alert-success'><strong>Success: </strong>New category has been added</div>";
-        }            
-    }*/
-
+    
 }

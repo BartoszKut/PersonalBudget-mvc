@@ -12,7 +12,6 @@ class Income extends Transaction
     public $errors = [];
 
 
-
     /* constructor */
     public function __construct($data = [])
     {
@@ -20,7 +19,6 @@ class Income extends Transaction
             $this -> $key = $value;
         };
     }
-
 
 
     /* save the income model */
@@ -69,7 +67,6 @@ class Income extends Transaction
         }
         return false;
     }
-
 
 
     public static function getIncomesCategories()

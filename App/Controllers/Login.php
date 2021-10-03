@@ -18,50 +18,38 @@ class Login extends \Core\Controller
     /* Show the login page */
     public function newAction()
     {
-        //if (isset($_SESSION['user_id'])) 
-        if (Auth::getUser()) {
-
+        if (Auth::getUser() != null) {
             $this -> redirect('/items/index');
-
         } else {
-            
             View::renderTemplate('Login/new.html');
         }        
     }
 
 
-
     /* Log in user */
     public function createAction()
     {
-        if(isset($_POST['email'])) {
+        if(isset($_POST['email']) && isset($_POST['password'])) {
             $user = User::authenticate($_POST['email'], $_POST['password']);
         } else {
             return $this -> redirect('/login');
         }
         
-        if($user) {
+        if($user != null) {
             Auth::login($user);           
-
-            $_SESSION['return_to'] = '/login/success';
-            
-            $this -> redirect(Auth::getReturnToPage());
+            View::renderTemplate('LoggedIn/mainMenu.html');
         } else {
             $errors['login'] = "Niepoprawny login lub hasło!";
-
             View::renderTemplate('Login/new.html', $errors, [
                 'email' => $_POST['email'],
             ]);
         }
     }
 
-
-
     public function successAction()
     {
         View::renderTemplate('LoggedIn/mainMenu.html');
     }
-
 
 
     // Logout user
@@ -74,16 +62,4 @@ class Login extends \Core\Controller
 
         View::renderTemplate('Home/index.html', $info);
     }
-
-
-
-    // // Show logged out flash message
-    // public function showLogoutMessageAction()
-    // {
-    //     Flash::addMessage('Wylogowano poprawnie!');
-    //     echo "chujek";
-
-    //     $this -> redirect('/');
-    // }
-
 }

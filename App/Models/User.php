@@ -7,7 +7,6 @@ use PDO;
 /* Example user model */
 class User extends \Core\Model
 {
-
     /* error messages */
     public $errors = []; //it is not necessary, because i decided to use $_SESSION validation with all_ok flag
 
@@ -20,76 +19,60 @@ class User extends \Core\Model
     }
 
 
-
     /* save the user model */
     public function save()
     {
+        $password_hash = password_hash($this -> password, PASSWORD_DEFAULT);
+
+        // Add user to database
+        $sql = 'INSERT INTO users (name, surname, email, password) VALUES (:name, :surname, :email, :password_hash)';
+
+        $db = static::getDB();
+        $stmt = $db -> prepare($sql);
+
+        $stmt -> bindValue(':name', $this -> name, PDO::PARAM_STR);
+        $stmt -> bindValue(':surname', $this -> surname, PDO::PARAM_STR);
+        $stmt -> bindValue(':email', $this -> email, PDO::PARAM_STR);
+        $stmt -> bindValue(':password_hash', $password_hash, PDO::PARAM_STR);
+
+        $stmt -> execute();
+
+
+        // Add categories of incomes to asigned_to_user table
+        $sql_incomes_cat = 'INSERT INTO incomes_category_assigned_to_users (user_id, name) SELECT users.id, incomes_category_default.name FROM users, incomes_category_default WHERE users.email= :email';
+
+        $db_incomes = static::getDB();
+        $stmt_incomes_cat = $db_incomes -> prepare($sql_incomes_cat);
+
+        $stmt_incomes_cat -> bindValue(':email', $this -> email, PDO::PARAM_STR);
+
+        $stmt_incomes_cat -> execute();
+
+
+        // Add categories of expenses to asigned_to_user table 
+        $sql_expenses_cat = 'INSERT INTO expenses_category_assigned_to_users (user_id, name) SELECT users.id, expenses_category_default.name FROM users, expenses_category_default WHERE users.email= :email';
+
+        $db_expenses = static::getDB();
+        $stmt_expenses_cat = $db_expenses -> prepare($sql_expenses_cat);
+
+        $stmt_expenses_cat -> bindValue(':email', $this -> email, PDO::PARAM_STR);
+
+        $stmt_expenses_cat -> execute();
         
 
-        // User::nameValidation($this -> name);
-        // User::surnameValidation($this -> surname);
-        // User::emailValidation($this -> email);
-        // User::passwordValidation($this -> password, $this -> password2);
+        // Add categories of payment methods to asigned_to_user table
+        $sql_pay_methods_cat = 'INSERT INTO payment_methods_assigned_to_users (user_id, name) SELECT users.id, payment_methods_default.name FROM users, payment_methods_default WHERE users.email= :email';
 
-        //if(empty($this -> errors)){
-        // if ($all_ok = true) {
-            $password_hash = password_hash($this -> password, PASSWORD_DEFAULT);
+        $db_pay_methods = static::getDB();
+        $stmt_pay_methods_cat = $db_pay_methods -> prepare($sql_pay_methods_cat);
 
-            // Add user to database
-            $sql = 'INSERT INTO users (name, surname, email, password) VALUES (:name, :surname, :email, :password_hash)';
+        $stmt_pay_methods_cat -> bindValue(':email', $this -> email, PDO::PARAM_STR);
 
-            $db = static::getDB();
-            $stmt = $db -> prepare($sql);
-
-            $stmt -> bindValue(':name', $this -> name, PDO::PARAM_STR);
-            $stmt -> bindValue(':surname', $this -> surname, PDO::PARAM_STR);
-            $stmt -> bindValue(':email', $this -> email, PDO::PARAM_STR);
-            $stmt -> bindValue(':password_hash', $password_hash, PDO::PARAM_STR);
-
-            $stmt -> execute();
-
-
-            // Add categories of incomes to asigned_to_user table
-            $sql_incomes_cat = 'INSERT INTO incomes_category_assigned_to_users (user_id, name) SELECT users.id, incomes_category_default.name FROM users, incomes_category_default WHERE users.email= :email';
-
-            $db_incomes = static::getDB();
-            $stmt_incomes_cat = $db_incomes -> prepare($sql_incomes_cat);
-
-            $stmt_incomes_cat -> bindValue(':email', $this -> email, PDO::PARAM_STR);
-
-            $stmt_incomes_cat -> execute();
-
-
-            // Add categories of expenses to asigned_to_user table 
-            $sql_expenses_cat = 'INSERT INTO expenses_category_assigned_to_users (user_id, name) SELECT users.id, expenses_category_default.name FROM users, expenses_category_default WHERE users.email= :email';
-
-            $db_expenses = static::getDB();
-            $stmt_expenses_cat = $db_expenses -> prepare($sql_expenses_cat);
-
-            $stmt_expenses_cat -> bindValue(':email', $this -> email, PDO::PARAM_STR);
-
-            $stmt_expenses_cat -> execute();
-            
-
-            // Add categories of payment methods to asigned_to_user table
-            $sql_pay_methods_cat = 'INSERT INTO payment_methods_assigned_to_users (user_id, name) SELECT users.id, payment_methods_default.name FROM users, payment_methods_default WHERE users.email= :email';
-
-            $db_pay_methods = static::getDB();
-            $stmt_pay_methods_cat = $db_pay_methods -> prepare($sql_pay_methods_cat);
-
-            $stmt_pay_methods_cat -> bindValue(':email', $this -> email, PDO::PARAM_STR);
-
-            $stmt_pay_methods_cat -> execute();
-
-            // return true;
-        // }
-        // return false;
+        $stmt_pay_methods_cat -> execute();
     }
 
 
-
     /* validation methods */
-
     public static function nameValidation($name)
     {
         if((strlen($name) < 3) || (strlen($name) > 20)){
@@ -102,7 +85,6 @@ class User extends \Core\Model
     }
 
 
-
     public static function surnameValidation($surname)
     {
         if((strlen($surname) < 3) || (strlen($surname) > 20)){ 
@@ -113,7 +95,6 @@ class User extends \Core\Model
         }
         return true;
     }
-
 
 
     public static function emailValidation($email)
@@ -131,8 +112,6 @@ class User extends \Core\Model
     }
 
 
-
-
     public static function passwordValidation($password, $password2)
     {   
         if((strlen($password) < 6) || (strlen($password) > 20)){ 
@@ -145,13 +124,11 @@ class User extends \Core\Model
     }
 
 
-
     /* Check is email exists */
     public static function emailExist($email)
     {
         return static::findByEmail($email) !== false;
     }
-
 
 
     /* Find user in database by email */
@@ -172,7 +149,6 @@ class User extends \Core\Model
     }
 
 
-
     /* Find user in database by user_id */
     public static function findById($user_id)
     {
@@ -191,7 +167,6 @@ class User extends \Core\Model
     }
 
 
-
     public static function authenticate($email, $password)
     {
         $user = static::findByEmail($email);
@@ -201,7 +176,7 @@ class User extends \Core\Model
                 return $user;
             }
         } else {
-            return false;
+            return null;
         }
     }
 }

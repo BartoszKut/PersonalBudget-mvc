@@ -19,7 +19,6 @@ class UserSettings extends User
     }
 
 
-
     /* save changes of user data */
     public function updateUserData()
     {
@@ -65,7 +64,6 @@ class UserSettings extends User
         }
         return false;
     }
-
 
 
     public function validateDataBeforeChanges()

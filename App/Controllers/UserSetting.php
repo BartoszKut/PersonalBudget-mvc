@@ -5,21 +5,25 @@ namespace App\Controllers;
 use \Core\View;
 use \App\Models\UserSettings;
 
-class UserSetting extends Authenticated 
+class UserSetting extends \Core\Controller
 {
     public function newAction()
     {
-        View::renderTemplate('AppSetting/userSettings.html');
+        if($this->requireLogin()) {
+            View::renderTemplate('AppSetting/userSettings.html');
+        };
     }
 
 
     
     public function updateUserAction()
     {   
-        $userSettings = new UserSettings($_POST);
+        if($this->requireLogin()) {        
+            $userSettings = new UserSettings($_POST);
 
-        if($userSettings -> updateUserData()) {
-            View::renderTemplate('LoggedIn/mainMenu.html');
-        }            
+            if($userSettings -> updateUserData()) {
+                View::renderTemplate('LoggedIn/mainMenu.html');
+            }            
+        }
     }
 }

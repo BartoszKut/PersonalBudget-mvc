@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use \Core\View;
 use \App\Models\User;
+use App\Auth;
 
 /* Signup controller */
 class Signup extends \Core\Controller
@@ -12,7 +13,11 @@ class Signup extends \Core\Controller
     /* Show the signup page */
     public function newAction()
     {
-        View::renderTemplate('Signup/new.html');
+        if (Auth::getUser()) {
+            View::renderTemplate('LoggedIn/mainMenu.html'); 
+        } else {
+            View::renderTemplate('Signup/new.html');
+        }           
     }
 
 

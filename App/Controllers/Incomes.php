@@ -5,31 +5,35 @@ namespace App\Controllers;
 use \Core\View;
 use \App\Models\Income;
 use \App\Controllers\Items;
+use \App\Auth;
 
 /* Add incomes controller */
-class Incomes extends Authenticated
+class Incomes extends \Core\Controller
 {
-
     /* Show the add income page */
     public function newAction()
     {
-        $arguments['incomesCategories'] = Income::getIncomesCategories();
+        if($this->requireLogin()) {
+            $arguments['incomesCategories'] = Income::getIncomesCategories();
 
-        View::renderTemplate('Income/new.html', $arguments);
+            View::renderTemplate('Income/new.html', $arguments);
+        }
     }
 
 
     /* Add new income */
     public function createAction()
     {
-        $income = new Income($_POST);
- 
-        if ($income -> save()){
-            $this -> redirect('/items/index');
-        } else {
-            View::renderTemplate('Income/new.html', [
-                'income' => $income
-            ]);
+        if($this->requireLogin()) {
+            $income = new Income($_POST);
+    
+            if ($income -> save()){
+                $this -> redirect('/items/index');
+            } else {
+                View::renderTemplate('Income/new.html', [
+                    'income' => $income
+                ]);
+            }
         }
     }
 

@@ -212,8 +212,4 @@ class Expense extends Transaction
 
         return $expenses_sum[0];
     }
-
-
-
-
 }

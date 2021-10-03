@@ -7,17 +7,19 @@ use \App\Models\Expense;
 use \App\Controllers\Items;
 
 /* Add expense controller */
-class Expenses extends Authenticated
+class Expenses extends \Core\Controller
 {
 
     /* Show the add expense page */
     public function newAction()
     {
-        $arguments = [];
-        $arguments['expensesCategories'] = Expense::getExpensesCategories();
-        $arguments['paymentMethods'] = Expense::getPaymentMethods();
+        if($this->requireLogin()) {        
+            $arguments = [];
+            $arguments['expensesCategories'] = Expense::getExpensesCategories();
+            $arguments['paymentMethods'] = Expense::getPaymentMethods();
 
-        View::renderTemplate('Expense/new.html', $arguments);
+            View::renderTemplate('Expense/new.html', $arguments);
+        }
     }
 
 
@@ -36,7 +38,6 @@ class Expenses extends Authenticated
     }
 
 
-
     public function getCategoryLimitAction() {
         
         $post = file_get_contents('php://input');
@@ -53,7 +54,6 @@ class Expenses extends Authenticated
 
         
     }
-
 
 
     public function getSummaryExpenseAction() {

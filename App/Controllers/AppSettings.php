@@ -3,14 +3,17 @@
 namespace App\Controllers;
 
 use \Core\View;
+use App\Auth;
 
-class AppSettings extends Authenticated /* Require the user to be logged in before giving access to all methods in this controller */
+class AppSettings extends \Core\Controller
 {
 
     /* Settings index */
     public function indexAction()
     {       
-        View::renderTemplate('AppSetting/settings.html');               
+        if($this->requireLogin()) {
+            View::renderTemplate('AppSetting/settings.html'); 
+        }
     }
 
 }

@@ -6,37 +6,29 @@ use \Core\View;
 use \App\Models\ExpensesSettings;
 use \App\Models\Expense;
 
-class ExpenseSettings extends Authenticated 
+class ExpenseSettings extends \Core\Controller
 {
     public function newAction()
     {     
-        $arguments['expensesCategories'] = Expense::getExpensesCategories();
-        $arguments['paymentMethods'] = Expense::getPaymentMethods();
+        if($this->requireLogin()) {
+            $arguments['expensesCategories'] = Expense::getExpensesCategories();
+            $arguments['paymentMethods'] = Expense::getPaymentMethods();
 
-        View::renderTemplate('AppSetting/expensesSettings.html', $arguments);          
+            View::renderTemplate('AppSetting/expensesSettings.html', $arguments);     
+        }     
     }
 
 
 
     public function updateExpenses()
     {   
-        $expensesSettings = new ExpensesSettings($_POST);
+        if($this->requireLogin()) {
+            $expensesSettings = new ExpensesSettings($_POST);
 
-        if($expensesSettings -> updateExpensesData()) {
-            View::renderTemplate('LoggedIn/mainMenu.html');
-        }            
+            if($expensesSettings -> updateExpensesData()) {
+                View::renderTemplate('LoggedIn/mainMenu.html');
+            }           
+        } 
     }
-
-
-
-    /*public function modalUpdateExpenses()
-    {   
-        echo "dziala do kontrolera";
-        $expensesSettings = new ExpensesSettings($_POST);
-
-        if($expensesSettings -> updateModalExpensesData()) {
-            echo "<div class='alert alert-success'><strong>Success: </strong>New category has been added</div>";
-        }            
-    }*/
 
 }

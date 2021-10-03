@@ -10,88 +10,102 @@ use \App\Flash;
 use \Datetime;
 
 
-class Balances extends Authenticated
+class Balances extends \Core\Controller
 {
-    public function currentAction()
+    public function dataToRender($firstDay, $lastDay)
     {
-        $firstDay = new DateTime('first day of this month');  
-        $firstDay = $firstDay -> format('Y-m-d');
+        $args = [];
 
-        $lastDay = new DateTime('last day of this month');        
-        $lastDay = $lastDay -> format('Y-m-d');
+        $args['incomes_sum'] = Balance::getSumOfIncomes($firstDay, $lastDay);
+        $args['expenses_sum'] = Balance::getSumOfExpenses($firstDay, $lastDay);
+        $args['incomes'] = Balance::getIncomes($firstDay, $lastDay);
+        $args['incomes_details'] = Balance::getDetailsOfIncomes($firstDay, $lastDay);
+        $args['expenses'] = Balance::getExpenses($firstDay, $lastDay);
+        $args['expenses_details'] = Balance::getDetailsOfExpenses($firstDay, $lastDay);
 
-        $arguments = [];
-        $arguments['currentMonth'] = Balance::getPolishNameOfCurrentMonth();
-        $arguments['incomes_sum'] = Balance::getSumOfIncomes($firstDay, $lastDay);
-        $arguments['expenses_sum'] = Balance::getSumOfExpenses($firstDay, $lastDay);
-        $arguments['incomes'] = Balance::getIncomes($firstDay, $lastDay);
-        $arguments['incomes_details'] = Balance::getDetailsOfIncomes($firstDay, $lastDay);
-        $arguments['expenses'] = Balance::getExpenses($firstDay, $lastDay);
-        $arguments['expenses_details'] = Balance::getDetailsOfExpenses($firstDay, $lastDay);
-        $arguments['information'] = Balance::getBalanceFromCurrentMonth();  
-        
-        View::renderTemplate('Balance/CurrentMonth.html', $arguments);
+        return $args;
     }
 
+
+    public function currentAction()
+    {
+        if($this->requireLogin()) {
+            $firstDay = new DateTime('first day of this month');  
+            $firstDay = $firstDay -> format('Y-m-d');
+
+            $lastDay = new DateTime('last day of this month');        
+            $lastDay = $lastDay -> format('Y-m-d');
+
+            $arguments = [];
+            $arguments['currentMonth'] = Balance::getPolishNameOfCurrentMonth();
+            $arguments['information'] = Balance::getBalanceFromCurrentMonth();  
+
+            $args = $this->dataToRender($firstDay, $lastDay);
+
+            $allArguments = array_merge($arguments, $args);
+            
+            View::renderTemplate('Balance/CurrentMonth.html', $allArguments);
+        }
+    }
 
 
     public function previousAction()
     {
-        $firstDay = new DateTime('first day of previous month');  
-        $firstDay = $firstDay -> format('Y-m-d');
+        if($this->requireLogin()) {
+            $firstDay = new DateTime('first day of previous month');  
+            $firstDay = $firstDay -> format('Y-m-d');
 
-        $lastDay = new DateTime('last day of previous month');
-        $lastDay = $lastDay -> format('Y-m-d');
+            $lastDay = new DateTime('last day of previous month');
+            $lastDay = $lastDay -> format('Y-m-d');
 
-        $arguments = [];
-        $arguments['previousMonth'] = Balance::getPolishNameOfPreviousMonth();
-        $arguments['incomes_sum'] = Balance::getSumOfIncomes($firstDay, $lastDay);
-        $arguments['expenses_sum'] = Balance::getSumOfExpenses($firstDay, $lastDay);
-        $arguments['incomes'] = Balance::getIncomes($firstDay, $lastDay);
-        $arguments['incomes_details'] = Balance::getDetailsOfIncomes($firstDay, $lastDay);
-        $arguments['expenses'] = Balance::getExpenses($firstDay, $lastDay);
-        $arguments['expenses_details'] = Balance::getDetailsOfExpenses($firstDay, $lastDay);
-        $arguments['information'] = Balance::getBalanceFromPreviousMonth();   
-        
-        View::renderTemplate('Balance/PreviousMonth.html', $arguments);
+            $arguments = [];
+            $arguments['previousMonth'] = Balance::getPolishNameOfPreviousMonth();
+            $arguments['information'] = Balance::getBalanceFromPreviousMonth();   
+
+            $args = $this->dataToRender($firstDay, $lastDay);
+
+            $allArguments = array_merge($arguments, $args);
+            
+            View::renderTemplate('Balance/PreviousMonth.html', $allArguments);
+        }
     }
-
 
 
     public function selectedDatesAction()
     {
-        $firstDay = $_POST['firstDate'];
+        if($this->requireLogin()) {
+            $firstDay = $_POST['firstDate'];
+            $lastDay = $_POST['secondDate'];
 
-        $lastDay = $_POST['secondDate'];
+            if($firstDay == "" || $lastDay == "") {
+                Flash::addMessage("Należy wybrać obie daty!");
+                $this -> selectDatesAction();
+            }
+            else if($firstDay > $lastDay) {
+                Flash::addMessage("Pierwsza data nie może być późniejsza niż druga!");
+                $this -> selectDatesAction();
+            }
+            else {
+                $arguments = [];
+                $arguments['firstDate'] = $firstDay;
+                $arguments['secondDate'] = $lastDay;
+                $arguments['information'] = Balance::getBalanceFromSelectedDates($firstDay, $lastDay);
 
-        if($firstDay == "" || $lastDay == "") {
-            Flash::addMessage("Należy wybrać obie daty!");
-            $this -> selectDatesAction();
-        }
-        else if($firstDay > $lastDay) {
-            Flash::addMessage("Pierwsza data nie może być późniejsza niż druga!");
-            $this -> selectDatesAction();
-        }
-        else {
-            $arguments = [];
-            $arguments['firstDate'] = $firstDay;
-            $arguments['secondDate'] = $lastDay;
-            $arguments['incomes_sum'] = Balance::getSumOfIncomes($firstDay, $lastDay);
-            $arguments['expenses_sum'] = Balance::getSumOfExpenses($firstDay, $lastDay);
-            $arguments['incomes'] = Balance::getIncomes($firstDay, $lastDay);
-            $arguments['incomes_details'] = Balance::getDetailsOfIncomes($firstDay, $lastDay);
-            $arguments['expenses'] = Balance::getExpenses($firstDay, $lastDay);
-            $arguments['expenses_details'] = Balance::getDetailsOfExpenses($firstDay, $lastDay);
-            $arguments['information'] = Balance::getBalanceFromSelectedDates($firstDay, $lastDay);
-            
-            View::renderTemplate('Balance/SelectedDates.html', $arguments);
+                $args = $this->dataToRender($firstDay, $lastDay);
+
+                $allArguments = array_merge($arguments, $args);
+                
+                View::renderTemplate('Balance/SelectedDates.html', $allArguments);
+            }
         }
     }
-
 
 
     public function selectDatesAction()
     {
-       View::renderTemplate('Balance/SelectDates.html'); 
+        if($this->requireLogin()) {
+            View::renderTemplate('Balance/SelectDates.html'); 
+        }
     }
+
 }

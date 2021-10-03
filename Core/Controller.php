@@ -4,6 +4,7 @@ namespace Core;
 
 use \App\Auth;
 use \App\Flash;
+use \Core\View;
 
 /**
  * Base controller
@@ -80,25 +81,19 @@ abstract class Controller
      *
      * @return void
      */
-    protected function redirect($url)
+    public function redirect($url)
     {
-        header('Location: http://' . $_SERVER['HTTP_HOST'] . $url, true, 303);
+        header('Location: https://' . $_SERVER['HTTP_HOST'] . $url, true, 303);
     }
 
 
-
-    public function requireLogin()
-    {
-        if (! Auth::getUser()) {
-
-            Flash::addMessage('Zaloguj się, aby przejść dalej!');
-
-            Auth::rememberRequestedPage();
-
-            $this -> redirect('/login');
-        } 
+    /* Check that user is logged */
+    public static function requireLogin()
+    { 
+        if(isset($_SESSION['user_id'])) {
+            return true;
+        } else {
+            return View::renderTemplate('Login/new.html');
+        }
     }
-
-
-
 }
